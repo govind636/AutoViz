@@ -669,7 +669,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 widgets = hv_panel[0]
                 hv_all = pn.Column(pn.Row(*widgets))
             except:
-                print('Error in Distribution Plot2')
+                print('Error in Distribution Plot')
                 hv_all = []
         if verbose == 2:
             imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
@@ -767,9 +767,9 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 hv_all = pn.Column(pn.Row(*widgets))
             except:
                 print('Error in Distribution Plot2')
-                hv_all = None
+                hv_all = []
             if verbose == 2:
-                imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+                imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
                 image_count += 1
             if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
                 #server = pn.serve(hv_all, start=True, show=True)
