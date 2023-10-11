@@ -113,6 +113,7 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 
 
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+    pn.extension()
     print(f'Saving {plot_name + additional} in HTML format')
     
     # Ensure the directory exists
