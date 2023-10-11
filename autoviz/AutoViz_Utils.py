@@ -91,18 +91,59 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
         figdata_png = base64.b64encode(imgdata.getvalue())
         return figdata_png
 
-def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
-    print('Saving %s in HTML format' %(plot_name+additional))
+# def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+#     print('Saving %s in HTML format' %(plot_name+additional))
+#     if not os.path.isdir(mk_dir):
+#         os.mkdir(mk_dir)
+#     if additional == '':
+#         filename = os.path.join(mk_dir,plot_name+"."+chart_format)
+#     else:
+#         filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
+#     ## it is amazing you can save interactive plots ##
+#     ## You don't need the resources = INLINE since it would consume too much space in HTML plots
+#     #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
+#     pn.panel(hv_all).save(filename, embed=True)
+
+
+def save_responsive_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+    print(f'Saving {plot_name+additional} in responsive HTML format')
     if not os.path.isdir(mk_dir):
         os.mkdir(mk_dir)
-    if additional == '':
-        filename = os.path.join(mk_dir,plot_name+"."+chart_format)
-    else:
-        filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
-    ## it is amazing you can save interactive plots ##
-    ## You don't need the resources = INLINE since it would consume too much space in HTML plots
-    #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
-    pn.panel(hv_all).save(filename, embed=True)
+    
+    filename = os.path.join(mk_dir, f"{plot_name}{additional}.{chart_format}")
+    
+    # Define the HTML template for a responsive plot
+    responsive_template = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            /* Add responsive CSS here */
+            .responsive-plot {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="responsive-plot">
+            {plot}
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Embed the plot in the responsive template
+    responsive_html = responsive_template.format(plot=pn.panel(hv_all).html)
+    
+    # Save the responsive HTML to the specified file
+    with open(filename, 'w') as file:
+        file.write(responsive_html)
+
+# Usage example:
+# Replace hv_all with your actual plot data and provide the desired parameters.
+save_responsive_html_data(hv_all, chart_format="html", plot_name="my_plot", mk_dir="output_directory", additional="_nums")
 
 #### This module analyzes a dependent Variable and finds out whether it is a
 #### Regression or Classification type problem
