@@ -670,7 +670,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 hv_all = pn.Column(pn.Row(*widgets))
             except:
                 print('Error in Distribution Plot2')
-                hv_panel = None
+                hv_panel = []
         if verbose == 2:
             imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
             image_count += 1
@@ -679,9 +679,9 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
             print('%s can be found in URL below:' %plot_name)
             hv_all.show()
         elif chart_format == 'html':
-            save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
+            save_html_data(hv_panel, chart_format, plot_name, mk_dir, additional="_nums")
         else:
-            display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
+            display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
             #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
     else:
         ######### This is for Classification problems only ########
