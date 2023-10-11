@@ -109,24 +109,47 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 #     pn.panel(hv_all).save(filename, embed=True)
 
 
-
-
-
-def save_html_data(hv_all, plot_name, mk_dir, additional=''):
-    print('Saving %s in HTML format' % (plot_name + additional))
-    if not os.path.exists(mk_dir):
-        os.mkdir(mk_dir)
+def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+    print(f'Saving {plot_name + additional} in HTML format')
+    
+    # Ensure the directory exists
+    if not os.path.isdir(mk_dir):
+        os.makedirs(mk_dir)
+    
     if additional == '':
-        filename = os.path.join(mk_dir, plot_name + ".html")
+        filename = os.path.join(mk_dir, plot_name + "." + chart_format)
     else:
-        filename = os.path.join(mk_dir, plot_name + additional + ".html")
+        filename = os.path.join(mk_dir, plot_name + additional + "." + chart_format)
 
-    # Render the HoloViews object to a Bokeh plot
-    hv_plot = hv.render(hv_all, backend='bokeh')
+    # Save the Panel object as an HTML file with embedding
+    panel_obj = pn.panel(hv_all)
+    panel_obj.save(filename, embed=True)
 
-    # Create an HTML output file and save the Bokeh plot
-    output_file(filename)
-    save(hv_plot)
+    # Read the HTML file
+    with open(filename, 'r') as file:
+        html_content = file.read()
+
+    # Add responsive CSS
+    responsive_css = """
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Define your responsive CSS styles here */
+        @media screen and (max-width: 600px) {
+            /* Example: Adjust styling for screens with a maximum width of 600px */
+        }
+    </style>
+    """
+
+    # Insert the responsive CSS into the HTML content
+    html_content = html_content.replace('</head>', f'{responsive_css}</head>')
+
+    # Write the modified content back to the HTML file
+    with open(filename, 'w') as file:
+        file.write(html_content)
 
 
 
