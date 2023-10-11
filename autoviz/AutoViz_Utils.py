@@ -109,6 +109,8 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 #     pn.panel(hv_all).save(filename, embed=True)
 
 
+
+
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     print(f'Saving {plot_name + additional} in HTML format')
     
@@ -140,6 +142,9 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
         /* Define your responsive CSS styles here */
         @media screen and (max-width: 600px) {
             /* Example: Adjust styling for screens with a maximum width of 600px */
+            body {
+                background-color: lightblue;
+            }
         }
     </style>
     """
@@ -150,6 +155,8 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     # Write the modified content back to the HTML file
     with open(filename, 'w') as file:
         file.write(html_content)
+
+
 
 
 
