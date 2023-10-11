@@ -669,8 +669,8 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 widgets = hv_panel[0]
                 hv_all = pn.Column(pn.Row(*widgets))
             except:
-                print('Error in Distribution Plot1')
-                hv_panel = []
+                print('Error in Distribution Plot2')
+                hv_panel = None
         if verbose == 2:
             imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
             image_count += 1
