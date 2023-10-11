@@ -106,23 +106,43 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 #     pn.panel(hv_all).save(filename, embed=True)
 
 
-def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
 
-    print(f'Saving {plot_name+additional} in responsive HTML format')
+
+def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+    print('Saving %s in HTML format' % (plot_name + additional))
     if not os.path.isdir(mk_dir):
         os.mkdir(mk_dir)
+    if additional == '':
+        filename = os.path.join(mk_dir, plot_name + "." + chart_format)
+    else:
+        filename = os.path.join(mk_dir, plot_name + additional + "." + chart_format)
 
-    filename = os.path.join(mk_dir, f"{plot_name}{additional}.{chart_format}")
+    # Convert the Panel content to HTML
+    html_content = pn.panel(hv_all).html
 
-    # Extract the Plotly figure from the hv_panel
-    plotly_fig = hv_all[0]  # Assuming that the Plotly figure is the first item in the panel
+    # Define a simple responsive CSS style for the HTML
+    responsive_css = """
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Define your responsive CSS styles here */
+        @media screen and (max-width: 600px) {
+            /* Example: Adjust styling for screens with a maximum width of 600px */
+        }
+    </style>
+    """
 
-    # Use Plotly to generate the HTML content for the plot
-    plot_html = pio.to_html(plotly_fig, full_html=False, include_plotlyjs='cdn')
+    # Combine the responsive CSS with the HTML content
+    final_html = f"{responsive_css}\n{html_content}"
 
-    # Save the responsive HTML to the specified file
-    with open(filename, 'w') as file:
-        file.write(plot_html)
+    # Save the combined HTML to a file
+    with open(filename, 'w') as html_file:
+        html_file.write(final_html)
+
+
 
 
 
