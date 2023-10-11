@@ -671,18 +671,19 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
             except:
                 print('Error in Distribution Plot')
                 hv_panel = None
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
-        if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-            #server = pn.serve(hv_all, start=True, show=True)
-            print('%s can be found in URL below:' %plot_name)
-            hv_all.show()
-        elif chart_format == 'html':
-            save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-        else:
-            display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-            #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
+        if hv_panel is not None: 
+            if verbose == 2:
+                imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+                image_count += 1
+            if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+                #server = pn.serve(hv_all, start=True, show=True)
+                print('%s can be found in URL below:' %plot_name)
+                hv_all.show()
+            elif chart_format == 'html':
+                save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
+            else:
+                display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
+                #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
     else:
         ######### This is for Classification problems only ########
         transparent = 0.7
