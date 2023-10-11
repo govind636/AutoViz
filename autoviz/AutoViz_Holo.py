@@ -591,7 +591,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
     height_size = 400
     gap = 0.4 #### This controls the space between rows  ######
     plot_name = 'distplots'
-    hv_all = None
+    # hv_all = None
     ###################################################################################
     if dep==None or dep=='' or problem_type == 'Regression':
         ######### This is for Regression problems only ########
@@ -669,7 +669,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 widgets = hv_panel[0]
                 hv_all = pn.Column(pn.Row(*widgets))
             except:
-                print('Error in Distribution Plot')
+                print('Error in Distribution Plot1')
                 hv_panel = []
         if verbose == 2:
             imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
@@ -738,46 +738,47 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
             else:
                 display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
                 #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-        if len(conti) > 0:
-            try:
-                ######   This is a Very Complex Way to build an ND Overlay Chart with One Variable as a Select Variable #######
-                colortext = 'brycgkbyrcmgkbyrcmgkbyrcmgkbyr'
-                target_vars = dft[dep].unique().tolist()
-                color_list = list(colortext[:len(target_vars)])
-                jitter = 0.5
-                colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-                transparent = 0.5
-                def select_widget(Select_numeric_variable):
-                    """
-                    This program must take in a variable passed from the widget and turn it into a chart.
-                    The input is known as num_var and it is the variable you must use to get the data and build a chart.
-                    The output must return a HoloViews Chart.
-                    """
-                    color = next(colors)
-                    overlay = hv.NdOverlay({group: hv.Distribution(np.histogram(dft[dft[dep]==group][Select_numeric_variable].values)) for i,group in enumerate(target_vars)})
-                    hv_look = overlay.opts(opts.Distribution(alpha=0.5, height=height_size, width=width_size)).opts(
-                        title='KDE (Distribution) Plots of all Numeric Variables by Classes').opts(
-                        xlabel='%s' %dep).opts(ylabel='%s' %Select_numeric_variable)
-                    return hv_look
-                #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-                dmap = hv.DynamicMap(select_widget,  kdims=['Select_numeric_variable']).redim.values(Select_numeric_variable=nums)
-                ###########  This is where you put the Panel Together ############
-                hv_panel = pn.panel(dmap)
-                widgets = hv_panel[0]
-                hv_all = pn.Column(pn.Row(*widgets))
-            except:
-                print('Error in Distribution Plot')
-            if verbose == 2:
-                imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-                image_count += 1
-            if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-                #server = pn.serve(hv_all, start=True, show=True)
-                print('%s can be found in URL below:' %plot_name)
-                hv_all.show()
-            elif chart_format == 'html':
-                save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-            else:
-                display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
+        # if len(conti) > 0:
+        #     try:
+        #         ######   This is a Very Complex Way to build an ND Overlay Chart with One Variable as a Select Variable #######
+        #         colortext = 'brycgkbyrcmgkbyrcmgkbyrcmgkbyr'
+        #         target_vars = dft[dep].unique().tolist()
+        #         color_list = list(colortext[:len(target_vars)])
+        #         jitter = 0.5
+        #         colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
+        #         transparent = 0.5
+        #         def select_widget(Select_numeric_variable):
+        #             """
+        #             This program must take in a variable passed from the widget and turn it into a chart.
+        #             The input is known as num_var and it is the variable you must use to get the data and build a chart.
+        #             The output must return a HoloViews Chart.
+        #             """
+        #             color = next(colors)
+        #             overlay = hv.NdOverlay({group: hv.Distribution(np.histogram(dft[dft[dep]==group][Select_numeric_variable].values)) for i,group in enumerate(target_vars)})
+        #             hv_look = overlay.opts(opts.Distribution(alpha=0.5, height=height_size, width=width_size)).opts(
+        #                 title='KDE (Distribution) Plots of all Numeric Variables by Classes').opts(
+        #                 xlabel='%s' %dep).opts(ylabel='%s' %Select_numeric_variable)
+        #             return hv_look
+        #         #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
+        #         dmap = hv.DynamicMap(select_widget,  kdims=['Select_numeric_variable']).redim.values(Select_numeric_variable=nums)
+        #         ###########  This is where you put the Panel Together ############
+        #         hv_panel = pn.panel(dmap)
+        #         widgets = hv_panel[0]
+        #         hv_all = pn.Column(pn.Row(*widgets))
+        #     except:
+        #         print('Error in Distribution Plot2')
+        #         hv_all = None
+        #     if verbose == 2:
+        #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+        #         image_count += 1
+        #     if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+        #         #server = pn.serve(hv_all, start=True, show=True)
+        #         print('%s can be found in URL below:' %plot_name)
+        #         hv_all.show()
+        #     elif chart_format == 'html':
+        #         save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
+        #     else:
+        #         display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
                 #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
     ####### End of Distplots ###########
     return hv_all
