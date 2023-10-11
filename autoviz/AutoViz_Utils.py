@@ -117,8 +117,8 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     else:
         filename = os.path.join(mk_dir, plot_name + additional + "." + chart_format)
 
-    # Convert the Panel content to HTML
-    html_content = pn.panel(hv_all).html
+    # Convert the HoloViews layout to HTML
+    html_content = hv.render(hv_all, backend=chart_format).html
 
     # Define a simple responsive CSS style for the HTML
     responsive_css = """
