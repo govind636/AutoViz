@@ -111,6 +111,7 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 
 
 
+
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     print(f'Saving {plot_name + additional} in HTML format')
     
@@ -127,34 +128,19 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     panel_obj = pn.panel(hv_all)
     panel_obj.save(filename, embed=True)
 
-    # Read the HTML file
+    # In your HTML file, include a reference to the external CSS file
     with open(filename, 'r') as file:
         html_content = file.read()
 
-    # Add responsive CSS
-    responsive_css = """
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        /* Define your responsive CSS styles here */
-        @media screen and (max-width: 600px) {
-            /* Example: Adjust styling for screens with a maximum width of 600px */
-            body {
-                background-color: lightblue;
-            }
-        }
-    </style>
-    """
-
-    # Insert the responsive CSS into the HTML content
-    html_content = html_content.replace('</head>', f'{responsive_css}</head>')
+    # Insert the link to the external CSS file into the HTML content
+    css_link = '<link rel="stylesheet" type="text/css" href="styles.css">'
+    html_content = html_content.replace('</head>', f'{css_link}</head>')
 
     # Write the modified content back to the HTML file
     with open(filename, 'w') as file:
         file.write(html_content)
+
+
 
 
 
