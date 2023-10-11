@@ -66,10 +66,6 @@ import panel.widgets as pnw
 import holoviews.plotting.bokeh
 from .classify_method import classify_columns
 from bokeh.resources import INLINE
-import holoviews as hv
-from bokeh.io import output_file
-from bokeh.plotting import save
-import plotly.io as pio
 ######## This is where we store the image data in a dictionary with a list of images #########
 def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional=''):
     if not os.path.isdir(mk_dir):
@@ -95,87 +91,18 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
         figdata_png = base64.b64encode(imgdata.getvalue())
         return figdata_png
 
-# def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
-#     print('Saving %s in HTML format' %(plot_name+additional))
-#     if not os.path.isdir(mk_dir):
-#         os.mkdir(mk_dir)
-#     if additional == '':
-#         filename = os.path.join(mk_dir,plot_name+"."+chart_format)
-#     else:
-#         filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
-#     ## it is amazing you can save interactive plots ##
-#     ## You don't need the resources = INLINE since it would consume too much space in HTML plots
-#     #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
-#     pn.panel(hv_all).save(filename, embed=True)
-
-
-
-
-
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
-    pn.extension()
-    print(f'Saving {plot_name + additional} in HTML format')
-    
-    # Ensure the directory exists
+    print('Saving %s in HTML format' %(plot_name+additional))
     if not os.path.isdir(mk_dir):
-        os.makedirs(mk_dir)
-    
+        os.mkdir(mk_dir)
     if additional == '':
-        filename = os.path.join(mk_dir, plot_name + "." + chart_format)
+        filename = os.path.join(mk_dir,plot_name+"."+chart_format)
     else:
-        filename = os.path.join(mk_dir, plot_name + additional + "." + chart_format)
-
-    # Save the Panel object as an HTML file with embedding
-    panel_obj = pn.panel(hv_all)
-    panel_obj.save(filename, embed=True)
-
-    # Read the HTML file
-    with open(filename, 'r') as file:
-        html_content = file.read()
-
-    # Add responsive CSS with media queries for the canvas element
-    responsive_css = """
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        canvas {
-            max-width: 100%; /* Set canvas to be no wider than its container */
-            height: auto; /* Maintain the canvas's aspect ratio */
-            display: block; /* Remove any extra space below the canvas */
-        }
-
-        /* Define your responsive CSS styles here */
-        @media screen and (max-width: 600px) {
-            /* Example: Adjust styling for screens with a maximum width of 600px */
-            canvas {
-                border: 1px solid red; /* Adjust canvas styling for smaller screens */
-            }
-        }
-    </style>
-    """
-
-    # Insert the responsive CSS into the HTML content
-    html_content = html_content.replace('</head>', f'{responsive_css}</head>')
-
-    # Write the modified content back to the HTML file
-    with open(filename, 'w') as file:
-        file.write(html_content)
-
-
-
-
-
-
-
-
-
-
-
-
+        filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
+    ## it is amazing you can save interactive plots ##
+    ## You don't need the resources = INLINE since it would consume too much space in HTML plots
+    #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
+    pn.panel(hv_all).save(filename, embed=True)
 
 #### This module analyzes a dependent Variable and finds out whether it is a
 #### Regression or Classification type problem
