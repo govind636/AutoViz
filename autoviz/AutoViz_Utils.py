@@ -128,17 +128,42 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     panel_obj = pn.panel(hv_all)
     panel_obj.save(filename, embed=True)
 
-    # In your HTML file, include a reference to the external CSS file
+    # Read the HTML file
     with open(filename, 'r') as file:
         html_content = file.read()
 
-    # Insert the link to the external CSS file into the HTML content
-    css_link = '<link rel="stylesheet" type="text/css" href="styles.css">'
-    html_content = html_content.replace('</head>', f'{css_link}</head>')
+    # Add responsive CSS with media queries for the canvas element
+    responsive_css = """
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        canvas {
+            max-width: 100%; /* Set canvas to be no wider than its container */
+            height: auto; /* Maintain the canvas's aspect ratio */
+            display: block; /* Remove any extra space below the canvas */
+        }
+
+        /* Define your responsive CSS styles here */
+        @media screen and (max-width: 600px) {
+            /* Example: Adjust styling for screens with a maximum width of 600px */
+            canvas {
+                border: 1px solid red; /* Adjust canvas styling for smaller screens */
+            }
+        }
+    </style>
+    """
+
+    # Insert the responsive CSS into the HTML content
+    html_content = html_content.replace('</head>', f'{responsive_css}</head>')
 
     # Write the modified content back to the HTML file
     with open(filename, 'w') as file:
         file.write(html_content)
+
 
 
 
