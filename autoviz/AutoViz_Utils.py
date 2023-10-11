@@ -114,34 +114,15 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
 
     filename = os.path.join(mk_dir, f"{plot_name}{additional}.{chart_format}")
 
-    # Use Plotly to generate the HTML content for the plot
-    plot_html = pio.to_html(hv_all, full_html=False)
+    # Extract the Plotly figure from the hv_panel
+    plotly_fig = hv_all[0]  # Assuming that the Plotly figure is the first item in the panel
 
-    # Define an HTML template for a responsive plot
-    responsive_template = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            /* Add responsive CSS here */
-            .responsive-plot {{
-                max-width: 100%;
-                height: auto;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="responsive-plot">
-            {plot_html}
-        </div>
-    </body>
-    </html>
-    """
+    # Use Plotly to generate the HTML content for the plot
+    plot_html = pio.to_html(plotly_fig, full_html=False, include_plotlyjs='cdn')
 
     # Save the responsive HTML to the specified file
     with open(filename, 'w') as file:
-        file.write(responsive_template)
+        file.write(plot_html)
 
 
 
