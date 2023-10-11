@@ -66,6 +66,9 @@ import panel.widgets as pnw
 import holoviews.plotting.bokeh
 from .classify_method import classify_columns
 from bokeh.resources import INLINE
+import holoviews as hv
+from bokeh.io import output_file
+from bokeh.plotting import save
 import plotly.io as pio
 ######## This is where we store the image data in a dictionary with a list of images #########
 def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional=''):
@@ -108,39 +111,25 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 
 
 
-def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+
+def save_html_data(hv_all, plot_name, mk_dir, additional=''):
     print('Saving %s in HTML format' % (plot_name + additional))
-    if not os.path.isdir(mk_dir):
+    if not os.path.exists(mk_dir):
         os.mkdir(mk_dir)
     if additional == '':
-        filename = os.path.join(mk_dir, plot_name + "." + chart_format)
+        filename = os.path.join(mk_dir, plot_name + ".html")
     else:
-        filename = os.path.join(mk_dir, plot_name + additional + "." + chart_format)
+        filename = os.path.join(mk_dir, plot_name + additional + ".html")
 
-    # Convert the HoloViews layout to HTML
-    html_content = hv.render(hv_all, backend=chart_format).html
+    # Render the HoloViews object to a Bokeh plot
+    hv_plot = hv.render(hv_all, backend='bokeh')
 
-    # Define a simple responsive CSS style for the HTML
-    responsive_css = """
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        /* Define your responsive CSS styles here */
-        @media screen and (max-width: 600px) {
-            /* Example: Adjust styling for screens with a maximum width of 600px */
-        }
-    </style>
-    """
+    # Create an HTML output file and save the Bokeh plot
+    output_file(filename)
+    save(hv_plot)
 
-    # Combine the responsive CSS with the HTML content
-    final_html = f"{responsive_css}\n{html_content}"
 
-    # Save the combined HTML to a file
-    with open(filename, 'w') as html_file:
-        html_file.write(final_html)
+
 
 
 
