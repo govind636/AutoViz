@@ -66,6 +66,7 @@ import panel.widgets as pnw
 import holoviews.plotting.bokeh
 from .classify_method import classify_columns
 from bokeh.resources import INLINE
+import plotly.io as pio
 ######## This is where we store the image data in a dictionary with a list of images #########
 def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional=''):
     if not os.path.isdir(mk_dir):
@@ -106,40 +107,42 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 
 
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+
     print(f'Saving {plot_name+additional} in responsive HTML format')
     if not os.path.isdir(mk_dir):
         os.mkdir(mk_dir)
-    
+
     filename = os.path.join(mk_dir, f"{plot_name}{additional}.{chart_format}")
-    
-    # Define the HTML template for a responsive plot
-    responsive_template = """
+
+    # Use Plotly to generate the HTML content for the plot
+    plot_html = pio.to_html(hv_all, full_html=False)
+
+    # Define an HTML template for a responsive plot
+    responsive_template = f"""
     <!DOCTYPE html>
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             /* Add responsive CSS here */
-            .responsive-plot {
+            .responsive-plot {{
                 max-width: 100%;
                 height: auto;
-            }
+            }}
         </style>
     </head>
     <body>
         <div class="responsive-plot">
-            {plot}
+            {plot_html}
         </div>
     </body>
     </html>
     """
-    
-    # Embed the plot in the responsive template
-    responsive_html = responsive_template.format(plot=pn.panel(hv_all).html)
-    
+
     # Save the responsive HTML to the specified file
     with open(filename, 'w') as file:
-        file.write(responsive_html)
+        file.write(responsive_template)
+
 
 
 #### This module analyzes a dependent Variable and finds out whether it is a
