@@ -680,7 +680,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 else:
                     display(hv_all)                 
             except:
-                print('Error in Distribution Plot')
+                print('Error in Distribution Plot1')
                 hv_all = []
         # if verbose == 2:
         #     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
@@ -779,17 +779,17 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
             except:
                 print('Error in Distribution Plot2')
                 hv_all = []
-            if verbose == 2:
-                imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-                image_count += 1
-            if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-                #server = pn.serve(hv_all, start=True, show=True)
-                print('%s can be found in URL below:' %plot_name)
-                hv_all.show()
-            elif chart_format == 'html':
-                save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-            else:
-                display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
+            # if verbose == 2:
+            #     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
+            #     image_count += 1
+            # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+            #     #server = pn.serve(hv_all, start=True, show=True)
+            #     print('%s can be found in URL below:' %plot_name)
+            #     hv_all.show()
+            # elif chart_format == 'html':
+            #     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
+            # else:
+            #     display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
                 #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
     ####### End of Distplots ###########
     return hv_all
