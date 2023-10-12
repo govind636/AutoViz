@@ -41,7 +41,7 @@ import pdb
 import pprint
 import matplotlib
 import seaborn
-# matplotlib.style.use('seaborn')
+matplotlib.style.use('seaborn')
 from itertools import cycle, combinations
 from collections import defaultdict
 import copy
