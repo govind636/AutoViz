@@ -591,7 +591,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
     height_size = 400
     gap = 0.4 #### This controls the space between rows  ######
     plot_name = 'distplots'
-    # hv_all = None
+    hv_all = None
     ###################################################################################
     if dep==None or dep=='' or problem_type == 'Regression':
         ######### This is for Regression problems only ########
