@@ -371,6 +371,7 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
         hv_panel = pn.panel(dmap)
         widgets = hv_panel[0]
         hv_all = pn.Column(pn.Row(*widgets))
+        print('1',hv_all)
         if verbose == 2:
             imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
             image_count += 1
@@ -388,7 +389,7 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
                         title='Scatter Plot of each independent numeric variable against target variable')
         hv_panel = pn.panel(hv_plot)
         hv_all = pn.Row(pn.WidgetBox(y), hv_plot)
-
+        print('2',hv_all)
         ##################################################################################################################
         #############   This works well except that the y-axis does not change when you switch y-variable ################
         ##################################################################################################################
@@ -434,7 +435,9 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
     elif chart_format == 'html':
         save_html_data(hv_all, chart_format, plot_name, mk_dir)
     else:
-        display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
+        display(hv_all) 
+    print('3',hv_all)
+        ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
     return hv_all
 #######################################################################################
 def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
