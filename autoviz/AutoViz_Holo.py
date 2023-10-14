@@ -575,7 +575,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         save_html_data(hv_panel, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()   
-    print('1',hv_all)
+    print('1',hv_panel)
     return hv_panel
 ##################################################################################
 ##### Draw the Distribution of each variable using Distplot
