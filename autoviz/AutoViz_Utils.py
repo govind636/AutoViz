@@ -146,7 +146,8 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
         # filename = os.path.join(mk_dir, "responsive_app.html")
 
         # Save the Panel app as the responsive HTML file
-        html.save(filename)
+        pn.panel(html).save(filename, embed=True)
+        # html.save(filename)
     
     except:
         
