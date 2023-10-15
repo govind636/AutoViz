@@ -259,7 +259,18 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
 
     widgets = pn.WidgetBox(x, y)
 
-    hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')    
+    hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')  
+
+    @pn.depends(x.param.value, y.param.value)
+    def update_plot(x, y):
+        plot = create_figure(x, y)
+        return plot
+
+# Create a Panel layout
+    layout = pn.Column(
+        pn.Row(x, y, css_classes=['container', 'mb-2']),
+        pn.Row(update_plot, css_classes=['container'])
+    )
     #####################################################
     ##### Save all the chart objects here ##############
     if verbose == 2:
@@ -270,7 +281,7 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         print('%s can be found in URL below:' %plot_name)
         hv_panel.show()
     elif chart_format == 'html':
-        save_html_data(hv_panel, chart_format, plot_name, mk_dir)
+        save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
     return hv_panel
