@@ -63,9 +63,9 @@ import holoviews as hv
 from holoviews import opts
 import panel as pn
 import panel.widgets as pnw
-import holoviews.plotting.bokeh
+# import holoviews.plotting.bokeh
 from .classify_method import classify_columns
-from bokeh.resources import INLINE
+# from bokeh.resources import INLINE
 ######## This is where we store the image data in a dictionary with a list of images #########
 def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional=''):
     if not os.path.isdir(mk_dir):
