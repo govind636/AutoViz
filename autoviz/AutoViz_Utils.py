@@ -91,21 +91,76 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
         figdata_png = base64.b64encode(imgdata.getvalue())
         return figdata_png
 
-def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
-    print('Saving %s in HTML format' %(plot_name+additional))
-    if not os.path.isdir(mk_dir):
-        os.mkdir(mk_dir)
-    if additional == '':
-        filename = os.path.join(mk_dir,plot_name+"."+chart_format)
-    else:
-        filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
-    ## it is amazing you can save interactive plots ##
-    ## You don't need the resources = INLINE since it would consume too much space in HTML plots
-    #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
-    pn.panel(hv_all).save(filename, embed=True)
+# def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+ 
+        
+#     print('Saving %s in HTML format' %(plot_name+additional))
+#     if not os.path.isdir(mk_dir):
+#         os.mkdir(mk_dir)
+#     if additional == '':
+#         filename = os.path.join(mk_dir,plot_name+"."+chart_format)
+#     else:
+#         filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
+#     ## it is amazing you can save interactive plots ##
+#     ## You don't need the resources = INLINE since it would consume too much space in HTML plots
+#     #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
+#     pn.panel(hv_all).save(filename, embed=True)
 
 #### This module analyzes a dependent Variable and finds out whether it is a
 #### Regression or Classification type problem
+
+def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
+    try:
+        html_template = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            {{ app_div }}
+        </body>
+        </html>
+        """
+
+        html = pn.template.HTMLTemplate(html_template)
+        html.add_panel('MyResponsiveApp', layout)
+
+
+        print('Saving %s in HTML format' %(plot_name+additional))
+        if not os.path.isdir(mk_dir):
+            os.mkdir(mk_dir)
+        if additional == '':
+            filename = os.path.join(mk_dir,plot_name+"."+chart_format)
+        else:
+            filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
+
+        # # Define the directory for saving the HTML file
+        # mk_dir = "output_directory"
+
+        # if not os.path.exists(mk_dir):
+        #     os.makedirs(mk_dir)
+
+        # # Specify the path and filename for the saved HTML
+        # filename = os.path.join(mk_dir, "responsive_app.html")
+
+        # Save the Panel app as the responsive HTML file
+        html.save(filename)
+    
+    except:
+        
+        print('1Saving %s in HTML format' %(plot_name+additional))
+        if not os.path.isdir(mk_dir):
+            os.mkdir(mk_dir)
+        if additional == '':
+            filename = os.path.join(mk_dir,plot_name+"."+chart_format)
+        else:
+            filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
+        ## it is amazing you can save interactive plots ##
+        ## You don't need the resources = INLINE since it would consume too much space in HTML plots
+        #pn.panel(hv_all).save(filename, embed=True, resources=INLINE) 
+        pn.panel(hv_all).save(filename, embed=True)
 def analyze_problem_type(train, target, verbose=0) : 
     train = copy.deepcopy(train)
     target = copy.deepcopy(target)
