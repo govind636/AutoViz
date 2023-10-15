@@ -271,6 +271,8 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         pn.Row(x, y, css_classes=['container', 'mb-2']),
         pn.Row(update_plot, css_classes=['container'])
     )
+
+
     #####################################################
     ##### Save all the chart objects here ##############
     if verbose == 2:
