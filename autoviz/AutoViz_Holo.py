@@ -62,7 +62,7 @@ hv.extension('bokeh', 'matplotlib')
 #hv.extension('bokeh')
 import panel as pn
 import panel.widgets as pnw
-import holoviews.plotting.bokeh
+# import holoviews.plotting.bokeh
 ######################################################################################
 ######## This is where we store the image data in a dictionary with a list of images #########
 def save_image_data_hv(fig, chart_count, chart_format):
