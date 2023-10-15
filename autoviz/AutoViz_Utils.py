@@ -125,7 +125,7 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
         """
 
         html = pn.template.HTMLTemplate(html_template)
-        html.add_panel('MyResponsiveApp', layout)
+        html.add_panel('MyResponsiveApp', hv_all)
 
 
         print('Saving %s in HTML format' %(plot_name+additional))
@@ -136,18 +136,8 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
         else:
             filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
 
-        # # Define the directory for saving the HTML file
-        # mk_dir = "output_directory"
-
-        # if not os.path.exists(mk_dir):
-        #     os.makedirs(mk_dir)
-
-        # # Specify the path and filename for the saved HTML
-        # filename = os.path.join(mk_dir, "responsive_app.html")
-
-        # Save the Panel app as the responsive HTML file
-        # pn.panel(html).save(filename, embed=True)
-        html.save(filename)
+        html.save(filename, embed=True)
+        # html.save(filename)
     
     except:
         
