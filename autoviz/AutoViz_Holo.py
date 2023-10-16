@@ -543,6 +543,41 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         widgets = pn.WidgetBox(x, y, color)
 
         hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')
+
+        
+        x1 = pnw.Select(name='X-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
+        y1 = pnw.Select(name='Y-Axis', value=quantileable[1], options=quantileable, sizing_mode='fixed', width=150)
+        size1 = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
+        if problem_type == 'Clustering':
+            ### There is no depVar in clustering, so no need to add it to None
+            color1 = pnw.Select(name='Color', value='None', options=['None'], sizing_mode='fixed', width=150)
+        else:
+            color1 = pnw.Select(name='Color', value='None', options=['None', dep], sizing_mode='fixed', width=150)
+        ## you need to decorate this function with depends to make the widgets change axes real time ##
+        @pn.depends(x1.param.value, y1.param.value, color1.param.value) 
+        def create_figure(x1, y1, color1):
+            opts = dict(cmap=cmap_list[0], width=width_size, height=height_size, line_color='black')
+            if color1 != 'None':
+                opts['color'] = color1 
+            opts['size1'] = bubble_size
+            opts['alpha'] = alpha
+            opts['tools'] = ['hover']
+            opts['toolbar'] = 'above'
+            opts['colorbar'] = True
+            return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
+                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            
+        x1.sizing_mode = 'stretch_width'
+        y1.sizing_mode = 'stretch_width'
+        color1.sizing_mode = 'stretch_width'
+        widgets = pn.WidgetBox(x1, y1,color1, css_classes=['custom-panel-css'])
+    
+        layout = pn.Column(
+            widgets,
+            pn.pane.HoloViews(create_figure, sizing_mode='stretch_both'),  # Wrap the graph in a responsive pane
+    #     sizing_mode='stretch_both'  # Make the entire layout responsive
+        )
+        
         ########################   This is the old way of drawing scatter  ################################
         #colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
         #def load_symbol(symbol, variable, **kwargs):
@@ -589,6 +624,38 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         widgets = pn.WidgetBox(x, y, color)
 
         hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')
+
+        
+        x1 = pnw.Select(name='X-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
+        y1 = pnw.Select(name='Y-Axis', value=quantileable[1], options=quantileable, sizing_mode='fixed', width=150)
+        size1 = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
+        color1 = pnw.Select(name='Color', value='None', options=['None',dep], sizing_mode='fixed', width=150)
+        
+        @pn.depends(x1.param.value, y1.param.value, color1.param.value) 
+        def create_figure(x1, y1, color1):
+            opts = dict(cmap=cmap_list[0], width=width_size, height=height_size, line_color='black')
+            if color1 != 'None':
+                opts['color'] = color1 
+            opts['size1'] = bubble_size
+            opts['alpha'] = alpha
+            opts['tools'] = ['hover']
+            opts['toolbar'] = 'above'
+            opts['colorbar'] = True
+            return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
+                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            
+        x1.sizing_mode = 'stretch_width'
+        y1.sizing_mode = 'stretch_width'
+        color1.sizing_mode = 'stretch_width'
+        widgets = pn.WidgetBox(x1, y1,color1, css_classes=['custom-panel-css'])
+    
+        layout = pn.Column(
+            widgets,
+            pn.pane.HoloViews(create_figure, sizing_mode='stretch_both'),  # Wrap the graph in a responsive pane
+    #     sizing_mode='stretch_both'  # Make the entire layout responsive
+        )
+
+        
         #########  This is an old way to plot a pair-wise scatter plot ####
         #target_vars = dft[dep].unique()
         #x = pn.widgets.Select(name='x', options=nums)
@@ -607,7 +674,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         print('%s can be found in URL below:' %plot_name)
         hv_panel.show()
     elif chart_format == 'html':
-        save_html_data(hv_panel, chart_format, plot_name, mk_dir)
+        save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()   
     print('1',hv_panel)
