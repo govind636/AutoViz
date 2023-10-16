@@ -241,12 +241,11 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         quantileable = [x for x in nums if len(dft[x].unique()) > 2]
     cmap_list = ['Blues','rainbow', 'viridis', 'plasma', 'inferno', 'magma', 'cividis']
     ### The X axis should be cat vars and the Y axis should be numeric vars ######
-    x = pnw.Select(name='X-Axis', value=cats[0], options=cats)
-    y = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable)
 
-    ## you need to decorate this function with depends to make the widgets change axes real time ##
-    @pn.depends(x.param.value, y.param.value) 
-    def create_figure(x, y):
+    x = pn.widgets.Select(name='X-Axis', value=cats[0], options=cats,sizing_mode='fixed', width=150)
+    y = pn.widgets.Select(name='Y-Axis', value=quantileable[0], options=quantileable,sizing_mode='fixed', width=150)
+
+    def create_scatter_plot(x, y):
         opts = dict(cmap=cmap_list[0], line_color='black')
         #opts['size'] = bubble_size
         opts['alpha'] = alpha
@@ -257,20 +256,40 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
                 xrotation=70, title='Average of each numeric var by categorical var')
 
-    widgets = pn.WidgetBox(x, y)
+    scatter_plot = create_scatter_plot(x, y)
+    scatter_plot.sizing_mode = 'stretch_both'
+    # Create a scatter plot with HoloViews and set the figure width
+ 
+    layout = pn.Column(
+    pn.Row(x, y),
+    scatter_plot,
+    css_classes=['custom-panel-css'],
+    )
+    
+# Create the layout
+
+
+
+# Save the Panel layout as a responsive HTML file
+    x1 = pnw.Select(name='X-Axis', value=cats[0], options=cats,sizing_mode='fixed', width=150)
+    y1 = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable,sizing_mode='fixed', width=150)
+
+    # you need to decorate this function with depends to make the widgets change axes real time ##
+    @pn.depends(x1.param.value, y1.param.value) 
+    def create_figure(x1, y1):
+        opts = dict(cmap=cmap_list[0], line_color='black')
+        #opts['size'] = bubble_size
+        opts['alpha'] = alpha
+        opts['tools'] = ['hover']
+        opts['toolbar'] = 'above'
+        opts['colorbar'] = True
+        conti_df = dft[[x1,y1]].groupby(x1).mean().reset_index()
+        return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
+                xrotation=70, title='Average of each numeric var by categorical var')
+
+    widgets = pn.WidgetBox(x1, y1)
 
     hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')  
-
-    @pn.depends(x.param.value, y.param.value)
-    def update_plot(x, y):
-        plot = create_figure(x, y)
-        return plot
-
-# Create a Panel layout
-    layout = pn.Column(
-        pn.Row(x, y, css_classes=['container', 'mb-2']),
-        pn.Row(update_plot, css_classes=['container'])
-    )
 
 
     #####################################################
