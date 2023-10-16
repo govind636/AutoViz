@@ -336,7 +336,7 @@ def draw_kdeplot_hv(dfin, cats, nums, chart_format, problem_type, dep, ls_object
                         ).opts(shared_axes=False).opts(title='Histogram and KDE of Target = %s' %dep)).opts(
                             height=height_size, width=width_size)
         dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-        hv_all = pn.pane.HoloViews(dmap)#, sizing_mode="stretch_both")
+        hv_all = pn.pane.HoloViews(dmap, sizing_mode='stretch_both')#, sizing_mode="stretch_both")
         #ls_objects.append(drawobj41)
         #ls_objects.append(drawobj42)
     else:
@@ -348,7 +348,7 @@ def draw_kdeplot_hv(dfin, cats, nums, chart_format, problem_type, dep, ls_object
             else:
                 dmap = hv.DynamicMap(return_dynamic_objects(dfin, dep, title=f'Histogram and KDE of Target = {dep}')).opts(width=width_size)
                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-                hv_all = pn.pane.HoloViews(dmap)
+                hv_all = pn.pane.HoloViews(dmap, sizing_mode='stretch_both')
                 #ls_objects.append(drawobj41)
                 #ls_objects.append(drawobj42)
     #### In this case we are using multiple objects in panel ###
