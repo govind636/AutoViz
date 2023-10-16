@@ -121,7 +121,7 @@ def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
         else:
             filename = os.path.join(mk_dir,plot_name+additional+"."+chart_format)
 
-        hv_all.save('filename', embed=True)
+        hv_all.save(filename, embed=True)
         # html.save(filename)
     
     except:
