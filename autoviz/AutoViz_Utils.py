@@ -111,6 +111,18 @@ def save_image_data(fig, chart_format, plot_name, depVar, mk_dir, additional='')
 
 def save_html_data(hv_all, chart_format, plot_name, mk_dir, additional=''):
     try:
+        html_template = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            {{ app_div }}
+        </body>
+        </html>
+        """
 
         print('Saving %s in HTML format' %(plot_name+additional))
         if not os.path.isdir(mk_dir):
