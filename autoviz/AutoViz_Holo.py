@@ -242,37 +242,13 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
     cmap_list = ['Blues','rainbow', 'viridis', 'plasma', 'inferno', 'magma', 'cividis']
     ### The X axis should be cat vars and the Y axis should be numeric vars ######
 
-    x = pn.widgets.Select(name='X-Axis', value=cats[0], options=cats,sizing_mode='fixed', width=150)
-    y = pn.widgets.Select(name='Y-Axis', value=quantileable[0], options=quantileable,sizing_mode='fixed', width=150)
-
-    def create_scatter_plot(x, y):
-        opts = dict(cmap=cmap_list[0], line_color='black')
-        #opts['size'] = bubble_size
-        opts['alpha'] = alpha
-        opts['tools'] = ['hover']
-        opts['toolbar'] = 'above'
-        opts['colorbar'] = True
-        conti_df = dft[[x,y]].groupby(x).mean().reset_index()
-        return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
-                xrotation=70, title='Average of each numeric var by categorical var')
-
-    scatter_plot = create_scatter_plot(x, y)
-    scatter_plot.sizing_mode = 'stretch_both'
-    # Create a scatter plot with HoloViews and set the figure width
- 
-    layout = pn.Column(
-    pn.Row(x, y),
-    scatter_plot,
-    css_classes=['custom-panel-css'],
-    )
     
-# Create the layout
 
 
 
 # Save the Panel layout as a responsive HTML file
-    x1 = pnw.Select(name='X-Axis', value=cats[0], options=cats,sizing_mode='fixed', width=150)
-    y1 = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable,sizing_mode='fixed', width=150)
+    x1 = pnw.Select(name='X-Axis', value=cats[0], options=cats, sizing_mode='fixed', width=150)
+    y1 = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
 
     # you need to decorate this function with depends to make the widgets change axes real time ##
     @pn.depends(x1.param.value, y1.param.value) 
@@ -287,9 +263,36 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
                 xrotation=70, title='Average of each numeric var by categorical var')
 
-    widgets = pn.WidgetBox(x1, y1)
+    x1.sizing_mode = 'stretch_width'
+    y1.sizing_mode = 'stretch_width'
+    widgets = pn.WidgetBox(x1, y1, css_classes=['custom-panel-css'])
+    
+    layout = pn.Column(
+        widgets,
+        pn.pane.HoloViews(create_figure, sizing_mode='stretch_both'),  # Wrap the graph in a responsive pane
+    #     sizing_mode='stretch_both'  # Make the entire layout responsive
+    )
 
-    hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')  
+    x = pnw.Select(name='X-Axis', value=cats[0], options=cats)
+    y = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable)
+
+    ## you need to decorate this function with depends to make the widgets change axes real time ##
+    @pn.depends(x.param.value, y.param.value) 
+    def create_figure1(x, y):
+        opts = dict(cmap=cmap_list[0], line_color='black')
+        #opts['size'] = bubble_size
+        opts['alpha'] = alpha
+        opts['tools'] = ['hover']
+        opts['toolbar'] = 'above'
+        opts['colorbar'] = True
+        conti_df = dft[[x,y]].groupby(x).mean().reset_index()
+        return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
+                xrotation=70, title='Average of each numeric var by categorical var')
+
+    widgets = pn.WidgetBox(x, y)
+
+    hv_panel = pn.Row(widgets, create_figure1).servable('Cross-selector')    
+  
 
 
     #####################################################
