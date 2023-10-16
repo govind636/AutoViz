@@ -547,7 +547,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         
         x1 = pnw.Select(name='X-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
         y1 = pnw.Select(name='Y-Axis', value=quantileable[1], options=quantileable, sizing_mode='fixed', width=150)
-        size1 = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
+        size = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
         if problem_type == 'Clustering':
             ### There is no depVar in clustering, so no need to add it to None
             color1 = pnw.Select(name='Color', value='None', options=['None'], sizing_mode='fixed', width=150)
@@ -559,7 +559,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts = dict(cmap=cmap_list[0], width=width_size, height=height_size, line_color='black')
             if color1 != 'None':
                 opts['color'] = color1 
-            opts['size1'] = bubble_size
+            opts['size'] = bubble_size
             opts['alpha'] = alpha
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
@@ -628,7 +628,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         
         x1 = pnw.Select(name='X-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
         y1 = pnw.Select(name='Y-Axis', value=quantileable[1], options=quantileable, sizing_mode='fixed', width=150)
-        size1 = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
+        size = pnw.Select(name='Size', value='None', options=['None'] + quantileable)
         color1 = pnw.Select(name='Color', value='None', options=['None',dep], sizing_mode='fixed', width=150)
         
         @pn.depends(x1.param.value, y1.param.value, color1.param.value) 
@@ -636,7 +636,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts = dict(cmap=cmap_list[0], width=width_size, height=height_size, line_color='black')
             if color1 != 'None':
                 opts['color'] = color1 
-            opts['size1'] = bubble_size
+            opts['size'] = bubble_size
             opts['alpha'] = alpha
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
