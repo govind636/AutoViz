@@ -677,7 +677,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()   
-    print('1',hv_panel)
+    
     return hv_panel
 ##################################################################################
 ##### Draw the Distribution of each variable using Distplot
@@ -1092,15 +1092,47 @@ def draw_date_vars_hv(df,dep,datevars, nums, chart_format, modeltype='Regression
 
     widgets = pn.WidgetBox(x, y)
 
-    hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')    
+    hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')  
+
+    
     #####################################################
+    x1 = pnw.Select(name='X-Axis', value=datevars[0], options=datevars, sizing_mode='fixed', width=150)
+    y1 = pnw.Select(name='Y-Axis', value=quantileable[0], options=quantileable, sizing_mode='fixed', width=150)
+
+    ## you need to decorate this function with depends to make the widgets change axes real time ##
+    @pn.depends(x1.param.value, y1.param.value) 
+    def create_figure1(x1, y1):
+        opts = dict(cmap=cmap_list[0], line_color='black')
+        #opts['size'] = bubble_size
+        opts['alpha'] = alpha
+        opts['tools'] = ['hover']
+        opts['toolbar'] = 'above'
+        opts['colorbar'] = True
+        dft = df.set_index(df[x])
+        conti_df = df[[x1,y1]].set_index(df[x1]).drop(x1, axis=1)
+        return hv.Curve(conti_df).opts(
+            line_width=1, line_color=next(colors),line_dash='dotted', line_alpha=0.5).opts(
+            width=width_size, height=height_size,title='Time Series plots of Numeric vars')
+
+ 
+    x1.sizing_mode = 'stretch_width'
+    y1.sizing_mode = 'stretch_width'
+    widgets = pn.WidgetBox(x1, y1, css_classes=['custom-panel-css'])
+    
+    layout = pn.Column(
+        widgets,
+        pn.pane.HoloViews(create_figure1, sizing_mode='stretch_both'),  # Wrap the graph in a responsive pane
+    #     sizing_mode='stretch_both'  # Make the entire layout responsive
+    )
+
+                            
     ##### Save all the chart objects here ##############
     if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
         #server = pn.serve(hv_panel, start=True, show=True)
         print('%s can be found in URL below:' %plot_name)
         hv_panel.show()
     elif chart_format == 'html':
-        save_html_data(hv_panel, chart_format, plot_name, mk_dir)
+        save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
         display(hv_panel)  
