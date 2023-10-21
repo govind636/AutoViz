@@ -886,15 +886,15 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                     """
                     color = next(colors)
                     overlay = hv.NdOverlay({group: hv.Distribution(np.histogram(dft[dft[dep]==group][Select_numeric_variable].values)) for i,group in enumerate(target_vars)})
-                    hv_look = overlay.opts(opts.Distribution(alpha=0.5, height=height_size, width=width_size)).opts(
-                        title='KDE (Distribution) Plots of all Numeric Variables by Classes').opts(
+                    hv_look = overlay.opts(opts.Distribution(alpha=0.5)).opts(
+                        title='KDE (Distribution) Plots of all Numeric Variables by Classes',responsive=True).opts(
                         xlabel='%s' %dep).opts(ylabel='%s' %Select_numeric_variable)
                     return hv_look
                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
                 dmap = hv.DynamicMap(select_widget,  kdims=['Select_numeric_variable']).redim.values(Select_numeric_variable=nums)
                 ###########  This is where you put the Panel Together ############
-                hv_panel = pn.panel(dmap)
-                widgets = hv_panel[0]
+                hv_panel = pn.panel(dmap,widget_location='top')
+                widgets = hv_panel[1]
                 hv_all = pn.Column(pn.Row(*widgets))
                 if verbose == 2:
                     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
