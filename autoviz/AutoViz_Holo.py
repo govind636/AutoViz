@@ -777,7 +777,7 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                     xlimi = (dft[num_var].min(), dft[num_var].max())
                     hv_look = hv.Distribution(np.histogram(dft[num_var]), num_var).opts(color=color,
                                        alpha=transparent,
-                                    title='KDE (Distribution) Plot of Numeric Variables').redim.range(num_var=xlimi)
+                                    title='KDE (Distribution) Plot of Numeric Variables',responsive=True).redim.range(num_var=xlimi)
                     return hv_look
                 
                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
