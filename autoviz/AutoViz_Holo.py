@@ -847,15 +847,15 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                     color_list.append(next(colors))
                 pivotdf = pd.DataFrame(pivot_df.to_records()).set_index(Select_categorical_var)
                 plot = pivotdf.hvplot(kind='bar',stacked=True,use_index=True,
-                            title='Target = %s Histogram by each Categorical Variable' %dep).opts(
-                                height=height_size,width=width_size, xrotation=70)
+                            title='Target = %s Histogram by each Categorical Variable' %dep,responsive=True).opts(
+                                 xrotation=70)
                 return plot
             #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
             dmap = hv.DynamicMap(select_widget,  kdims=['Select_categorical_var']).redim.values(
                                                 Select_categorical_var=cats)
             ###########  This is where you put the Panel Together ############
-            hv_panel = pn.panel(dmap)
-            widgets = hv_panel[0]
+            hv_panel = pn.panel(dmap, widget_location='top')
+            widgets = hv_panel[1]
             hv_all = pn.Column(pn.Row(*widgets))
             if verbose == 2:
                 imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
