@@ -728,14 +728,14 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                     color_list = next(colors)
                     pivotdf = pd.DataFrame(conti_df.to_records()).set_index(each_cat)
                     plot = pivotdf.hvplot(kind='bar',stacked=False,use_index=False, color=color_list,
-                                          title='Mean Target = %s by each Categorical Variable' %dep).opts(xrotation=70)
+                                          title='Mean Target = %s by each Categorical Variable' %dep ,responsive=True).opts(xrotation=70)
                     return plot
                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
                 dmap = hv.DynamicMap(select_widget,  kdims=['Select_Cat_Variable']).redim.values(Select_Cat_Variable=cats)
                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
                 ###########  This is where you put the Panel Together ############
-                hv_panel = pn.panel(dmap)
-                widgets = hv_panel[0]
+                hv_panel = pn.panel(dmap, widget_location='top')
+                widgets = hv_panel[1]
                 hv_all = pn.Column(pn.Row(*widgets))
                 if verbose == 2:
                     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
