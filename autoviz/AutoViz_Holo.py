@@ -755,6 +755,18 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                 jitter = 0.5
                 colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
                 transparent = 0.5
+                # def select_variable_to_plot(num_var):
+                #     """
+                #     This program must take in a variable passed from the widget and turn it into a chart.
+                #     The input is known as num_var and it is the variable you must use to get the data and build a chart.
+                #     The output must return a HoloViews Chart.
+                #     """
+                #     color = next(colors)
+                #     xlimi = (dft[num_var].min(), dft[num_var].max())
+                #     hv_look = hv.Distribution(np.histogram(dft[num_var]), num_var).opts(color=color,
+                #                         height=height_size, width=width_size, alpha=transparent,
+                #                     title='KDE (Distribution) Plot of Numeric Variables').redim.range(num_var=xlimi)
+                #     return hv_look
                 def select_variable_to_plot(num_var):
                     """
                     This program must take in a variable passed from the widget and turn it into a chart.
@@ -764,15 +776,17 @@ def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None,
                     color = next(colors)
                     xlimi = (dft[num_var].min(), dft[num_var].max())
                     hv_look = hv.Distribution(np.histogram(dft[num_var]), num_var).opts(color=color,
-                                        height=height_size, width=width_size, alpha=transparent,
+                                       alpha=transparent,
                                     title='KDE (Distribution) Plot of Numeric Variables').redim.range(num_var=xlimi)
                     return hv_look
+                
                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
                 dmap = hv.DynamicMap(select_variable_to_plot,  kdims=['Select_Variable']).redim.values(Select_Variable=nums)
                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
                 ###########  This is where you put the Panel Together ############
-                hv_panel = pn.panel(dmap)
-                widgets = hv_panel[0]
+                hv_panel = pn.panel(dmap, widget_location='top')
+                
+                widgets = hv_panel[1]
                 hv_all = pn.Column(pn.Row(*widgets))
                 if verbose == 2:
                     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
