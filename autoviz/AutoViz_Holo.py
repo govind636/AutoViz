@@ -1238,16 +1238,16 @@ def draw_heatmap_hv(dft, conti, chart_format, datevars=[], dep=None,
         N = len(conti)
         corre = dft_target.corr()
         if timeseries_flag:
-            heatmap = corre.hvplot.heatmap(height=height_size, width=width_size, colorbar=True, 
+            heatmap = corre.hvplot.heatmap( colorbar=True, 
                     cmap=cmap_list,
                                            rot=70,
-                title='Time Series Data: Heatmap of Differenced Continuous vars including target').opts(
+                title='Time Series Data: Heatmap of Differenced Continuous vars including target',,responsive=True).opts(
                         opts.HeatMap(tools=['hover'], toolbar='above'))
         else:
-            heatmap = corre.hvplot.heatmap(height=height_size, width=width_size, colorbar=True, 
+            heatmap = corre.hvplot.heatmap( colorbar=True, 
                     cmap=cmap_list,
                                            rot=70,
-            title='Heatmap of all Continuous Variables including target').opts(
+            title='Heatmap of all Continuous Variables including target',responsive=True).opts(
                                     opts.HeatMap(tools=['hover'],  toolbar='above'))
         hv_plot = heatmap * hv.Labels(heatmap).opts(opts.Labels(text_font_size='7pt'))
         hv_panel = pn.panel(hv_plot)
