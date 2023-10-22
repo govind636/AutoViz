@@ -1212,12 +1212,12 @@ def draw_heatmap_hv(dft, conti, chart_format, datevars=[], dep=None,
         if timeseries_flag:
             heatmap = corre.hvplot.heatmap( colorbar=True, 
                     cmap=cmap_list, rot=70,
-            title='Time Series: Heatmap of all Differenced Continuous vars for target = %s' %dep,responsive=True))
+            title='Time Series: Heatmap of all Differenced Continuous vars for target = %s' %dep,responsive=True)
         else:
             heatmap = corre.hvplot.heatmap( colorbar=True,
                     cmap=cmap_list,
                     rot=70,
-            title='Heatmap of all Continuous Variables including target',responsive=True));
+            title='Heatmap of all Continuous Variables including target',responsive=True);
         hv_plot = heatmap * hv.Labels(heatmap).opts(opts.Labels(text_font_size='7pt'))
         hv_panel = pn.panel(hv_plot)
         if verbose == 2:
