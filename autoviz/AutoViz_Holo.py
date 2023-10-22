@@ -397,14 +397,14 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
         def load_symbol(symbol, **kwargs):
             color = next(colors)
             return hv.Scatter((dft[symbol].values,dft[dep].values)).opts(framewise=True).opts(size=bubble_size,
-                    color=color, alpha=alpha, height=height_size, width=width_size).opts(
+                    color=color, alpha=alpha).opts(
                     xlabel='%s' %symbol).opts(ylabel='%s' %dep).opts(
-                   title='Scatter Plot of %s against %s variable' %(symbol,dep))
+                   title='Scatter Plot of %s against %s variable' %(symbol,dep),responsive=True)
         ### This is where you create the dynamic map and pass it the variable to load the chart!
         dmap = hv.DynamicMap(load_symbol, kdims='Select_Variable').redim.values(Select_Variable=nums).opts(framewise=True)
         ###########  This is where you put the Panel Together ############
-        hv_panel = pn.panel(dmap)
-        widgets = hv_panel[0]
+        hv_panel = pn.panel(dmap,widget_location='top')
+        widgets = hv_panel[1]
         hv_all = pn.Column(pn.Row(*widgets))
         
         if verbose == 2:
@@ -420,11 +420,13 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
         y = pn.widgets.Select(name='y', options=nums)
         kind = pn.widgets.Select(name='kind', value='scatter', options=['scatter'])
         #######  This is where you call the widget and pass it the hv_plotto draw a Chart #######
-        hv_plot = dft.hvplot(x=dep, y=y, kind=kind, height=height_size, width=width_size, size=bubble_size,
-                        title='Scatter Plot of each independent numeric variable against target variable')
-        hv_panel = pn.panel(hv_plot)
-        hv_all = pn.Row(pn.WidgetBox(y), hv_plot)
-        
+        hv_plot = dft.hvplot(x=dep, y=y, kind=kind,  size=bubble_size,
+                        title='Scatter Plot of each independent numeric variable against target variable',responsive=True)
+        # hv_panel = pn.panel(hv_plot)
+        hv_all = pn.Column(
+                 pn.WidgetBox(y),
+                hv_plot
+                )
         ##################################################################################################################
         #############   This works well except that the y-axis does not change when you switch y-variable ################
         ##################################################################################################################
