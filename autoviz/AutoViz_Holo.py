@@ -974,7 +974,7 @@ def draw_violinplot_hv(dft, dep, nums,chart_format, modeltype='Regression',
             drawobj_list.append(var_name)
             drawobjv_list.append(var_name)
             drawobj = data.hvplot(kind='violin', label='Violin Plot %s (Standard Scaled)' %title_string,
-                                   rot=70  #height=height_size,width=width_size
+                                   rot=70 ,responsive=True #height=height_size,width=width_size
                                  )
             drawobjv_list[counter] = drawobj
             counter += 1
@@ -1029,7 +1029,7 @@ def draw_violinplot_hv(dft, dep, nums,chart_format, modeltype='Regression',
                 drawobj_list.append(var_name)
                 drawobjv_list.append(var_name)
                 drawobj =  dft_sym.hvplot(kind='violin',title='%s: %s' %(sup_title, title_string)).opts(framewise=True).opts(
-                        box_color=color, height=height_size, width=width_size)
+                        box_color=color,responsive=True)
                 drawobjv_list[counter] = drawobj
                 counter += 1
         ######### After collecting all the drawobjv's put them in a panel and display them ###
