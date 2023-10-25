@@ -539,9 +539,11 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
             opts['colorbar'] = True
-            return hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()),
-                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
-
+            # return hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()),
+            #     title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            scatter = hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()))
+            scatter.opts(title='Pair-wise Scatter Plot of two Independent Numeric variables', **opts)
+            return scatter
         widgets = pn.WidgetBox(x, y, color)
 
         hv_panel = pn.Row(widgets, create_figure).servable('Cross-selector')
@@ -566,8 +568,11 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
             opts['colorbar'] = True
-            return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
-                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            # return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
+            #     title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            scatter = hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()))
+            scatter.opts(title='Pair-wise Scatter Plot of two Independent Numeric variables', **opts)
+            return scatter
             
         x1.sizing_mode = 'stretch_width'
         y1.sizing_mode = 'stretch_width'
@@ -620,8 +625,11 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
             opts['colorbar'] = True
-            return hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()),
-                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            # return hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()),
+            #     title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            scatter = hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()))
+            scatter.opts(title='Pair-wise Scatter Plot of two Independent Numeric variables', **opts)
+            return scatter
 
         widgets = pn.WidgetBox(x, y, color)
 
@@ -643,8 +651,11 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
             opts['tools'] = ['hover']
             opts['toolbar'] = 'above'
             opts['colorbar'] = True
-            return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
-                title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            # return hv.Points(dft, [x1, y1], label="%s vs %s" % (x1.title(), y1.title()),
+            #     title='Pair-wise Scatter Plot of two Independent Numeric variables').opts(**opts)
+            scatter = hv.Points(dft, [x, y], label="%s vs %s" % (x.title(), y.title()))
+            scatter.opts(title='Pair-wise Scatter Plot of two Independent Numeric variables', **opts)
+            return scatter
             
         x1.sizing_mode = 'stretch_width'
         y1.sizing_mode = 'stretch_width'
