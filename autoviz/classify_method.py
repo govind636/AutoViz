@@ -204,7 +204,7 @@ def classify_columns(df_preds, verbose=0):
             date_vars.remove(date_var)
     sum_all_cols['date_vars'] = date_vars
     
-    sum_all_cols['id'] = id_vars
+    sum_all_cols['id_vars'] = id_vars
     
     sum_all_cols['cols_delete'] = cols_delete
     ## This is an EXTREMELY complicated logic for cat vars. Don't change it unless you test it many times!
@@ -256,8 +256,8 @@ def classify_columns(df_preds, verbose=0):
         cat_vars.append(i)
     sum_all_cols['cat_vars'] = cat_vars
     sum_all_cols['continuous_vars'] = continuous_vars
-    
-    sum_all_cols['id'] = []
+    id_vars=[]
+    sum_all_cols['id_vars'] = id_vars
 
     
     ###### This is where you consoldate the numbers ###########
