@@ -252,9 +252,12 @@ def classify_columns(df_preds, verbose=0):
 #             cat_vars.remove(cat)
             var_df.loc[var_df['index']==cat,'cat'] = 0
             var_df.loc[var_df['index']==cat,'id_col'] = 1
+    for i in id_vars:
+        cat_vars.append(i)
     sum_all_cols['cat_vars'] = cat_vars
     sum_all_cols['continuous_vars'] = continuous_vars
-    sum_all_cols['id'] = id_vars
+    
+    sum_all_cols['id'] = []
 
     
     ###### This is where you consoldate the numbers ###########
