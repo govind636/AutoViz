@@ -204,7 +204,7 @@ def classify_columns(df_preds, verbose=0):
             date_vars.remove(date_var)
     sum_all_cols['date_vars'] = date_vars
     
-    sum_all_cols['cat_vars'] = id_vars
+    sum_all_cols['id'] = id_vars
     
     sum_all_cols['cols_delete'] = cols_delete
     ## This is an EXTREMELY complicated logic for cat vars. Don't change it unless you test it many times!
@@ -248,13 +248,14 @@ def classify_columns(df_preds, verbose=0):
             var_df.loc[var_df['index']==cat,'cat'] = 0
             var_df.loc[var_df['index']==cat,'numeric'] = 1
         elif len(df_preds[cat].value_counts()) == df_preds.shape[0]:
-            id_vars.append(cat)
-            cat_vars.remove(cat)
+#             id_vars.append(cat)
+#             cat_vars.remove(cat)
             var_df.loc[var_df['index']==cat,'cat'] = 0
             var_df.loc[var_df['index']==cat,'id_col'] = 1
     sum_all_cols['cat_vars'] = cat_vars
     sum_all_cols['continuous_vars'] = continuous_vars
-    sum_all_cols['cat_vars'] = id_vars
+    sum_all_cols['id'] = id_vars
+
     
     ###### This is where you consoldate the numbers ###########
     var_dict_sum = dict(zip(var_df.values[:,0], var_df.values[:,2:].sum(1)))
@@ -278,8 +279,10 @@ def classify_columns(df_preds, verbose=0):
             cat_vars.append(each_discrete)
             discrete_string_vars.remove(each_discrete)
     sum_all_cols['discrete_string_vars'] =  discrete_string_vars
+    
     sum_all_cols['cat_vars'] = cat_vars
     sum_all_cols['nlp_vars'] = nlp_vars
+    
     ###############  This is where you print all the types of variables ##############
     ####### Returns 8 vars in the following order: continuous_vars,int_vars,cat_vars,
     ###  string_bool_vars,discrete_string_vars,nlp_vars,date_or_id_vars,cols_delete
