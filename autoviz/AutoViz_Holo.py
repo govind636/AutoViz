@@ -9,18 +9,18 @@ import copy
 # import pdb
 ####################################################################################
 #### The warnings from Sklearn are so annoying that I have to shut it off ####
-import warnings
-warnings.filterwarnings("ignore")
-def warn(*args, **kwargs):
-    pass
-warnings.warn = warn
+# import warnings
+# warnings.filterwarnings("ignore")
+# def warn(*args, **kwargs):
+#     pass
+# warnings.warn = warn
 ########################################
 import logging
 logging.getLogger("param").setLevel(logging.ERROR)
 # from bokeh.util.warnings import BokehUserWarning 
 # import warnings 
-warnings.simplefilter(action='ignore', category=BokehUserWarning)
-warnings.filterwarnings("ignore")
+# warnings.simplefilter(action='ignore', category=BokehUserWarning)
+# warnings.filterwarnings("ignore")
 # from sklearn.exceptions import DataConversionWarning
 # warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 ####################################################################################
