@@ -1650,6 +1650,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     date_vars = var_df['date_vars']
     print(4)
     if len(var_df['continuous_vars'])==0 and len(int_vars)>0:
+        print(4)
         continuous_vars = var_df['int_vars']
         categorical_vars = list_difference(categorical_vars, int_vars)
         int_vars = []
@@ -1657,9 +1658,11 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     #    print('Cannot visualize this dataset since no numeric or integer vars in data...returning')
     #    return dataname
     else:
+        print(4)
         continuous_vars = var_df['continuous_vars']
     #### from now you can use wordclouds on discrete_string_vars ######################
     preds = [x for x in orig_preds if x not in IDcols+cols_delete]
+    print(4)
     if len(IDcols+cols_delete) == 0:
         print('        No variables removed since no ID or low-information variables found in data set')
     else:
@@ -1668,6 +1671,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
         if verbose >= 1:
             print('        List of variables removed: %s' %(IDcols+cols_delete))
     #############    Sample data if too big and find problem type   #############################
+    print(4)
     if dfte.shape[0]>= max_rows_analyzed:
         print('Since Number of Rows in data %d exceeds maximum, randomly sampling %d rows for EDA...' %(len(dfte),max_rows_analyzed))
         dft = dfte.sample(max_rows_analyzed, random_state=0)
