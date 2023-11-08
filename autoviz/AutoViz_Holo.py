@@ -153,6 +153,7 @@ def AutoViz_Holo(filename, sep=',', depVar='', dfte=None, header=0, verbose=0,
     start_time = time.time()
     
     try:
+        print(1)
         dfin, dep,IDcols,bool_vars,cats,nums,discrete_string_vars,date_vars,classes,problem_type,selected_cols = classify_print_vars(
                                             filename,sep,max_rows_analyzed, max_cols_analyzed,
                                             depVar,dfte,header,verbose)
