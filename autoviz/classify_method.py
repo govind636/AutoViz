@@ -5,17 +5,17 @@ np.random.seed(99)
 random.seed(42)
 ################################################################################
 #### The warnings from Sklearn are so annoying that I have to shut it off #######
-import warnings
-warnings.filterwarnings("ignore")
-from sklearn.exceptions import DataConversionWarning
-warnings.filterwarnings(action='ignore', category=DataConversionWarning)
+# import warnings
+# warnings.filterwarnings("ignore")
+# from sklearn.exceptions import DataConversionWarning
+# warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 def warn(*args, **kwargs):
     pass
 warnings.warn = warn
 import logging
 ####################################################################################
-from IPython.display import display
-import pdb
+# from IPython.display import display
+# import pdb
 from functools import reduce
 import copy
 import time
