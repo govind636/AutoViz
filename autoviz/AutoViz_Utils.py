@@ -1619,7 +1619,7 @@ import copy
 def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
                         depVar='',dfte=None, header=0,verbose=0):
     corr_limit = 0.7  ### This limit represents correlation above this, vars will be removed
-    print(1)
+    
     start_time=time.time()
     
     if filename:
@@ -1631,7 +1631,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     
     dfte = load_file_dataframe(dataname, sep=sep, header=header, verbose=verbose, 
                     nrows=max_rows_analyzed, parse_dates=parse_dates)
-    print(dfte)
+    
     
     orig_preds = [x for x in list(dfte) if x not in [depVar]]
     #################    CLASSIFY  COLUMNS   HERE    ######################
@@ -1648,23 +1648,19 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     int_vars = var_df['int_vars']
     categorical_vars = var_df['cat_vars'] + var_df['factor_vars'] + int_vars + bool_vars
     date_vars = var_df['date_vars']
-    print(4)
+    
     if len(var_df['continuous_vars'])==0 and len(int_vars)>0:
-        print(41)
+        
         continuous_vars = var_df['int_vars']
-        print(continuous_vars)
-        print("int_vars",int_vars)
-        print("diff",list_difference(categorical_vars, int_vars))
-        print(41)
         categorical_vars = list_difference(categorical_vars, int_vars)
-        print(continuous_vars)
+        
         int_vars = []
-        print(412)
+        
     #elif len(var_df['continuous_vars'])==0 and len(int_vars)==0:
     #    print('Cannot visualize this dataset since no numeric or integer vars in data...returning')
     #    return dataname
     else:
-        print(42)
+        
         continuous_vars = var_df['continuous_vars']
     #### from now you can use wordclouds on discrete_string_vars ######################
     preds = [x for x in orig_preds if x not in IDcols+cols_delete]
