@@ -1650,7 +1650,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     date_vars = var_df['date_vars']
     print(4)
     if len(var_df['continuous_vars'])==0 and len(int_vars)>0:
-        print(4)
+        print(41)
         continuous_vars = var_df['int_vars']
         categorical_vars = list_difference(categorical_vars, int_vars)
         int_vars = []
@@ -1658,11 +1658,12 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     #    print('Cannot visualize this dataset since no numeric or integer vars in data...returning')
     #    return dataname
     else:
-        print(4)
+        print(42)
         continuous_vars = var_df['continuous_vars']
     #### from now you can use wordclouds on discrete_string_vars ######################
     preds = [x for x in orig_preds if x not in IDcols+cols_delete]
-    print(4)
+    print(IDcols+cols_delete)
+    print(preds)
     if len(IDcols+cols_delete) == 0:
         print('        No variables removed since no ID or low-information variables found in data set')
     else:
