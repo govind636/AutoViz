@@ -1648,7 +1648,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     int_vars = var_df['int_vars']
     categorical_vars = var_df['cat_vars'] + var_df['factor_vars'] + int_vars + bool_vars
     date_vars = var_df['date_vars']
-    
+    print(4)
     if len(var_df['continuous_vars'])==0 and len(int_vars)>0:
         continuous_vars = var_df['int_vars']
         categorical_vars = list_difference(categorical_vars, int_vars)
@@ -1679,6 +1679,7 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
         depVar = depVar[0]
         print('Since AutoViz cannot visualize multi-label targets, selecting %s from target list' %depVar[0])
     ### Now we analyze depVar as usual - Do not change the next line to elif! ###
+    print(3)
     if type(depVar) == str:
         if depVar == '':
             cols_list = list(dft)
