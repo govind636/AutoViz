@@ -692,7 +692,7 @@ def plot_fast_average_num_by_cat(dft, cats, num_vars, verbose=0,kind="bar"):
 
 ##### Draw the Distribution of each variable using Distplot
 ##### Must do this only for Continuous Variables
-from scipy.stats import probplot,skew
+# from scipy.stats import probplot,skew
 # def draw_distplot(dft, cat_bools, conti, verbose,chart_format,problem_type,dep=None, classes=None, mk_dir=None):
 #     cats = find_remove_duplicates(cat_bools) ### first make sure there are no duplicates in this ###
 #     copy_cats = copy.deepcopy(cats)
