@@ -1652,8 +1652,12 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     if len(var_df['continuous_vars'])==0 and len(int_vars)>0:
         print(41)
         continuous_vars = var_df['int_vars']
+        print(continuous_vars)
+        print(41)
         categorical_vars = list_difference(categorical_vars, int_vars)
+        print(continuous_vars)
         int_vars = []
+        print(412)
     #elif len(var_df['continuous_vars'])==0 and len(int_vars)==0:
     #    print('Cannot visualize this dataset since no numeric or integer vars in data...returning')
     #    return dataname
