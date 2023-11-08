@@ -25,7 +25,7 @@ setuptools.setup(
         "hvplot~=0.8.4",
         "panel>=1.2.3",
         "fsspec>=0.8.3",
-        "typing-extensions>=4.1.1",
+        "typing-extensions>=4.1.1"
        
     ],
     classifiers=[
