@@ -1653,6 +1653,8 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
         print(41)
         continuous_vars = var_df['int_vars']
         print(continuous_vars)
+        print("int_vars",int_vars)
+        print("diff",list_difference(categorical_vars, int_vars))
         print(41)
         categorical_vars = list_difference(categorical_vars, int_vars)
         print(continuous_vars)
