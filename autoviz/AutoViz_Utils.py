@@ -1843,8 +1843,8 @@ def EDA_find_remove_columns_with_infinity(df, remove=False):
 #######################################################################################
 from collections import Counter
 import time
-from sklearn.feature_selection import chi2, mutual_info_regression, mutual_info_classif
-from sklearn.feature_selection import SelectKBest
+# from sklearn.feature_selection import chi2, mutual_info_regression, mutual_info_classif
+# from sklearn.feature_selection import SelectKBest
 ################################################################################
 from collections import defaultdict
 from collections import OrderedDict
