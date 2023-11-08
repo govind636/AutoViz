@@ -1311,12 +1311,12 @@ import copy
 # # certain columns that have only one value repeated that they are useless and must be removed from dataset
 # #Subtract RIGHT_LIST from LEFT_LIST to produce a new list
 # ### This program is USED VERY HEAVILY so be careful about changing it
-# def list_difference(l1,l2):
-#     lst = []
-#     for i in l1:
-#         if i not in l2:
-#             lst.append(i)
-#     return lst
+def list_difference(l1,l2):
+    lst = []
+    for i in l1:
+        if i not in l2:
+            lst.append(i)
+    return lst
 
 ######## Find ANY word in columns to identify ANY TYPE OF columns
 ####### search_for_list = ["Date","DATE", "date"], any words you want to search for it
