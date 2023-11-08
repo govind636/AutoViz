@@ -1619,7 +1619,7 @@ import copy
 def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
                         depVar='',dfte=None, header=0,verbose=0):
     corr_limit = 0.7  ### This limit represents correlation above this, vars will be removed
-    
+    print(1)
     start_time=time.time()
     
     if filename:
@@ -1628,8 +1628,10 @@ def classify_print_vars(filename,sep, max_rows_analyzed, max_cols_analyzed,
     else:
         dataname = copy.deepcopy(dfte)
         parse_dates = True
+    
     dfte = load_file_dataframe(dataname, sep=sep, header=header, verbose=verbose, 
                     nrows=max_rows_analyzed, parse_dates=parse_dates)
+    print(dfte)
     
     orig_preds = [x for x in list(dfte) if x not in [depVar]]
     #################    CLASSIFY  COLUMNS   HERE    ######################
