@@ -282,14 +282,14 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
 
     #####################################################
     ##### Save all the chart objects here ##############
-    if verbose == 2:
-        imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-        image_count += 1
-    if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-        #server = pn.serve(hv_panel, start=True, show=True)
-        print('%s can be found in URL below:' %plot_name)
-        hv_panel.show()
-    elif chart_format == 'html':
+    # if verbose == 2:
+    #     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+    #     image_count += 1
+    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+    #     #server = pn.serve(hv_panel, start=True, show=True)
+    #     print('%s can be found in URL below:' %plot_name)
+    #     hv_panel.show()
+    if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
@@ -448,15 +448,15 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
 
         
         ###########  E N D    O F     Y- A X I S    C O D E    ############
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
-    ####### End of Scatter Plots ######
-    if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-        #server = pn.serve(hv_all, start=True, show=True)
-        print('%s can be found in URL below:' %plot_name)
-        hv_all.show()
-    elif chart_format == 'html':
+    #     if verbose == 2:
+    #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+    #         image_count += 1
+    # ####### End of Scatter Plots ######
+    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+    #     #server = pn.serve(hv_all, start=True, show=True)
+    #     print('%s can be found in URL below:' %plot_name)
+    #     hv_all.show()
+    if chart_format == 'html':
         save_html_data(hv_all, chart_format, plot_name, mk_dir)
     else:
         display(hv_all) 
@@ -561,9 +561,9 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         #widgets = hv_panel[0]
         #hv_panel = pn.Column(pn.Row(*widgets))
         ########################   End of the old way of drawing scatter  ################################
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
+        # if verbose == 2:
+        #     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+        #     image_count += 1
     else:
         ########## This is for Classification problems ##########
         #########  This is the new way to plot a pair-wise scatter plot ####
@@ -616,15 +616,15 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         #plot = dft.hvplot(x=x, y=y, kind=kind, by=dep, height=height_size, alpha=0.5,
         #                title='Pair-wise Scatter Plot of two Independent Numeric variables')
         #hv_panel = pn.Row(pn.WidgetBox(x, y, kind), plot)
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
-    ####### End of Pair Scatter Plots ######
-    if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-        #server = pn.serve(hv_panel, start=True, show=True)
-        print('%s can be found in URL below:' %plot_name)
-        hv_panel.show()
-    elif chart_format == 'html':
+    #     if verbose == 2:
+    #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+    #         image_count += 1
+    # ####### End of Pair Scatter Plots ######
+    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+    #     #server = pn.serve(hv_panel, start=True, show=True)
+    #     print('%s can be found in URL below:' %plot_name)
+    #     hv_panel.show()
+    if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()   
@@ -1071,12 +1071,12 @@ def draw_date_vars_hv(df,dep,datevars, nums, chart_format, modeltype='Regression
     )
     hv_panel=layout
                             
-    ##### Save all the chart objects here ##############
-    if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-        #server = pn.serve(hv_panel, start=True, show=True)
-        print('%s can be found in URL below:' %plot_name)
-        hv_panel.show()
-    elif chart_format == 'html':
+    # ##### Save all the chart objects here ##############
+    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+    #     #server = pn.serve(hv_panel, start=True, show=True)
+    #     print('%s can be found in URL below:' %plot_name)
+    #     hv_panel.show()
+    if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
@@ -1149,9 +1149,9 @@ def draw_heatmap_hv(dft, conti, chart_format, datevars=[], dep=None,
             title='Heatmap of all Continuous Variables including target',responsive=True);
         hv_plot = heatmap * hv.Labels(heatmap).opts(opts.Labels(text_font_size='7pt'))
         hv_panel = pn.panel(hv_plot)
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
+        # if verbose == 2:
+        #     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+        #     image_count += 1
     else:
         ### This is for Regression and None Dep variable problems only ##
         image_count = 0
@@ -1180,15 +1180,15 @@ def draw_heatmap_hv(dft, conti, chart_format, datevars=[], dep=None,
                                     opts.HeatMap(tools=['hover'],  toolbar='above'))
         hv_plot = heatmap * hv.Labels(heatmap).opts(opts.Labels(text_font_size='7pt'))
         hv_panel = pn.panel(hv_plot)
-        if verbose == 2:
-            imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-            image_count += 1
-    ############# End of Heat Maps ##############
-    if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-        print('%s can be found in URL below:' %plot_name)
-        server = pn.serve(hv_panel, start=True, show=True)
+    #     if verbose == 2:
+    #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
+    #         image_count += 1
+    # ############# End of Heat Maps ##############
+    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
+    #     print('%s can be found in URL below:' %plot_name)
+    #     server = pn.serve(hv_panel, start=True, show=True)
         #hv_panel.show() ### dont use show for just heatmap there is some problem with it
-    elif chart_format == 'html':
+    if chart_format == 'html':
         save_html_data(hv_panel, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
