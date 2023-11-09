@@ -265,7 +265,7 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
         opts['colorbar'] = True
         conti_df = dft[[x1,y1]].groupby(x1).mean().reset_index()
         return hv.Bars(conti_df).opts(width=width_size, height=height_size, 
-                xrotation=70, title=' numeric var by categorical var')
+                xrotation=45, title=' numeric var by categorical var')
 
     x1.sizing_mode = 'stretch_width'
     y1.sizing_mode = 'stretch_width'
