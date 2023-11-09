@@ -6,24 +6,12 @@ from autoviz.AutoViz_Utils import *
 ##############   make sure you use: conda install -c pyviz hvplot ###############
 import hvplot.pandas  # noqa
 import copy
-# import pdb
-####################################################################################
-#### The warnings from Sklearn are so annoying that I have to shut it off ####
-# import warnings
-# warnings.filterwarnings("ignore")
-# def warn(*args, **kwargs):
-#     pass
-# warnings.warn = warn
-########################################
 import logging
 logging.getLogger("param").setLevel(logging.ERROR)
 from bokeh.util.warnings import BokehUserWarning 
 import warnings 
 warnings.simplefilter(action='ignore', category=BokehUserWarning)
 warnings.filterwarnings("ignore")
-# from sklearn.exceptions import DataConversionWarning
-# warnings.filterwarnings(action='ignore', category=DataConversionWarning)
-####################################################################################
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
@@ -32,8 +20,6 @@ import io
 import seaborn as sns
 sns.set(style="whitegrid", color_codes=True)
 import re
-# import pdb
-# import pprint
 import matplotlib
 matplotlib.style.use('fivethirtyeight')
 from itertools import cycle, combinations
@@ -43,67 +29,23 @@ import time
 import sys
 import random
 import xlrd
-# import statsmodels
 from io import BytesIO
 import base64
-# from functools import reduce
 import traceback
-# import xgboost as xgb
-# from xgboost.sklearn import XGBClassifier
-# from xgboost.sklearn import XGBRegressor
 import os
 ##########################################################################################
 ######## This is where we import HoloViews related libraries  #########
 import hvplot.pandas
 import holoviews as hv
 from holoviews import opts
-#hv.notebook_extension('bokeh')
-# hv.extension('bokeh', 'matplotlib')
-#hv.extension('bokeh')
 import panel as pn
 import panel.widgets as pnw
 # import holoviews.plotting.bokeh
 ######################################################################################
-######## This is where we store the image data in a dictionary with a list of images #########
-# def save_image_data_hv(fig, chart_count, chart_format):
-#     if chart_format == 'svg':
-#         ###### You have to add these lines to each function that creates charts currently ##
-#         imgdata = io.StringIO()
-#         fig.savefig(imgdata, format=chart_format)
-#         imgdata.seek(0)
-#         svg_data = imgdata.getvalue()
-#         return svg_data
-#     elif chart_format in ['png','jpg']:
-#         ### You have to do it slightly differently for PNG and JPEG formats
-#         imgdata = BytesIO()
-#         fig.savefig(imgdata, format=chart_format, bbox_inches='tight', pad_inches=0.0)
-#         imgdata.seek(0)
-#         figdata_png = base64.b64encode(imgdata.getvalue())
-#         return figdata_png
-##############  This is where we
 def append_panels(hv_panel, imgdata_list, chart_format):
     imgdata_list.append(hv.output(hv_panel, backend='bokeh', fig=chart_format))
     return imgdata_list
-###### Display on Jupyter Notebook or on the Server ########
-# def display_dmap(dmap):
-#     renderer = hv.renderer('bokeh')
-#     #### You must have a Dynamic Map dmap to render these Bokeh objects on Servers
-#     app = renderer.app(dmap)
-#     server = renderer.app(dmap, show=True, new_window=True)
-#     return server
-####################################################################################
-# def display_obj(dmap_in):
-#     ### This is to render the chart in a web server to display as a dashboard!!
-#     renderer = hv.renderer('bokeh')
-#     #### You must have a Dynamic Map dmap to render these Bokeh objects on Servers
-#     app = renderer.app(dmap_in)
-#     server = renderer.app(dmap_in, show=True, new_window=True)
-#     display(server)
-####################################################################################
-# def display_server(dmap):
-#     #### You must have a Dynamic Map dmap to render these Bokeh objects on Servers
-#     server = pn.serve(dmap, start=True, show=False)
-#     return server
+
 ##############################  This is the beginning of the new AutoViz_Holo ###################
 def AutoViz_Holo(filename, sep=',', depVar='', dfte=None, header=0, verbose=0,
                         lowess=False,chart_format='svg',max_rows_analyzed=150000,
@@ -181,17 +123,6 @@ def AutoViz_Holo(filename, sep=',', depVar='', dfte=None, header=0, verbose=0,
                            classes, lowess, mk_dir, verbose)
             ls_objects.append(drawobj2)
         ### code comment
-    # drawobj3 = draw_distplot_hv(dfin, cats, nums, chart_format, problem_type, dep, classes, mk_dir, verbose)
-    # ls_objects.append(drawobj3)
-    ### kdeplot is the only time you send in ls_objects since it has to be returned with 2 objects ###
-    # drawobj4 = draw_kdeplot_hv(dfin, cats, nums, chart_format, problem_type, dep, ls_objects, mk_dir, verbose)
-    # if not drawobj4:
-    #     ### if it is not blank, then treat it as ls_objects ###
-    #     ls_objects = copy.deepcopy(drawobj4)
-        ### code comment
-    # if len(nums) > 0:
-    #     drawobj5 = draw_violinplot_hv(dfin, dep, nums, chart_format, problem_type, mk_dir, verbose)
-    #     ls_objects.append(drawobj5)
     if len(nums) > 0:
         drawobj6 = draw_heatmap_hv(dfin, nums, chart_format, date_vars, dep, problem_type, classes, 
                             mk_dir, verbose)
@@ -280,80 +211,12 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
 ##### code remove 1
     hv_panel=layout
 
-
-    #####################################################
-    ##### Save all the chart objects here ##############
-    # if verbose == 2:
-    #     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-    #     image_count += 1
-    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-    #     #server = pn.serve(hv_panel, start=True, show=True)
-    #     print('%s can be found in URL below:' %plot_name)
-    #     hv_panel.show()
     if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
     return hv_panel
-#####################################################################################################
-# def draw_kdeplot_hv(dfin, cats, nums, chart_format, problem_type, dep, ls_objects, mk_dir, verbose=0):
-#     dft = copy.deepcopy(dfin)
-#     image_count = 0
-#     imgdata_list = list()
-#     N = len(nums)
-#     cols = 2
-#     plot_name = 'kde_plots'
-#     width_size = 600
-#     height_size = 400
-#     ########################################################################################
-#     def return_dynamic_objects(dfout, dep, title='Distribution of Target variable'):
-#         width_size = 600
-#         height_size = 400
-#         pdf1 = pd.DataFrame(dfout[dep].value_counts().reset_index())
-#         pdf2 = pd.DataFrame(dfout[dep].value_counts(1).reset_index())
-#         drawobj41 = pdf1.hvplot(kind='bar', color='lightblue', title=title).opts(
-#                         height=height_size, width=width_size,xrotation=70)
-#         drawobj42 = pdf2.hvplot(kind='bar', color='lightgreen', title=title)
-#         return (drawobj41+drawobj42)
-
-#     if problem_type.endswith('Classification'):
-#         colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#         dmap = hv.DynamicMap(return_dynamic_objects(dfin, dep, title='Percent Distribution of Target variable'
-#                         ).opts(shared_axes=False).opts(title='Histogram and KDE of Target = %s' %dep)).opts(
-#                             height=height_size, width=width_size)
-#         dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-#         hv_all = pn.pane.HoloViews(dmap, sizing_mode='stretch_both')#, sizing_mode="stretch_both")
-#         #ls_objects.append(drawobj41)
-#         #ls_objects.append(drawobj42)
-#     else:
-#         if not isinstance(dep, list):
-#             ### it means dep is a string ###
-#             if dep == '':
-#                 ### there is no target variable to draw ######
-#                 return ls_objects
-#             else:
-#                 dmap = hv.DynamicMap(return_dynamic_objects(dfin, dep, title=f'Histogram and KDE of Target = {dep}')).opts(width=width_size)
-#                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-#                 hv_all = pn.pane.HoloViews(dmap, sizing_mode='stretch_both')
-#                 #ls_objects.append(drawobj41)
-#                 #ls_objects.append(drawobj42)
-#     #### In this case we are using multiple objects in panel ###
-#     ##### Save all the chart objects here ##############
-#     if verbose == 2:
-#         imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#         image_count += 1
-#     if chart_format.lower() in ['server', 'bokeh_server', 'bokeh-server']:
-#         ### If you want it on a server, you use drawobj.show()
-#         #(drawobj41+drawobj42).show()
-#         print('%s can be found in URL below:' %plot_name)
-#         server = pn.serve(hv_all, start=True, show=True)
-#     elif chart_format == 'html':
-#         save_html_data(hv_all, chart_format, plot_name, mk_dir)
-#     else:
-#         ### This will display it in a Jupyter Notebook.
-#         display(hv_all)
-#     return ls_objects
-#####################################################################################################
+##########################################################################################
 def draw_scatters_hv(dfin, nums, chart_format, problem_type,
                   dep=None, classes=None, lowess=False, mk_dir='AutoViz_Plots', verbose=0):
     ######## SCATTER PLOTS ARE USEFUL FOR COMPARING NUMERIC VARIABLES
@@ -413,50 +276,6 @@ def draw_scatters_hv(dfin, nums, chart_format, problem_type,
                  pn.WidgetBox(y),
                 hv_plot
                 )
-        ##################################################################################################################
-        #############   This works well except that the y-axis does not change when you switch y-variable ################
-        ##################################################################################################################
-        #target_vars = dft[dep].unique().tolist()
-        #color_list = list(colortext[:len(target_vars)])
-        #def select_widget(Select_numeric_variable):
-        #    """
-        #    This program must take in a variable passed from the widget and turn it into a chart.
-        #    The input is known as select_variable and it is the variable you must use to get the data and build a chart.
-        #    The output must return a HoloViews Chart.
-        #    """
-        #    hv_string = ''
-        #    target_list = np.unique(dfin[dep].values)
-        #    lowerbound = dfin[Select_numeric_variable].min()
-        #    upperbound = dfin[Select_numeric_variable].max()
-        #    for each_t in target_list:
-        #        if not isinstance(each_t, str):
-        #            each_ts = str(each_t) 
-        #        else:
-        #            each_ts = copy.deepcopy(each_t)
-        #        next_color = next(colors)
-        #        #add_string = "hv.Scatter((dfin[dfin['"+dep+"']=="+each_ts+"]['"+dep+"'].values,dfin[dfin['"+dep+"']=="+each_ts+"]['"+Select_numeric_variable+"'].values)).opts(color='"+next_color+"',jitter=eval('"+str(jitter)+"'),alpha=eval('"+str(alpha)+"'),size=eval('"+str(bubble_size)+"'),height=eval('"+str(height_size)+"'),width=eval('"+str(width_size)+"'))"
-        #        add_string = "hv.Scatter((dfin[dfin['"+dep+"']=="+each_ts+"]['"+dep+"'].values,dfin[dfin['"+dep+"']=="+each_ts+"]['"+Select_numeric_variable+"'].values)).opts(color='"+next_color+"',jitter=eval('"+str(jitter)+"'),alpha=eval('"+str(alpha)+"'),ylim=(eval('"+str(lowerbound)+"'),eval('"+str(upperbound)+"')),height=eval('"+str(height_size)+"'),width=eval('"+str(width_size)+"'))"
-        #        hv_string += add_string + " * "
-        #    return eval(hv_string[:-2]).opts(
-        #            legend_position='top_left',title='Scatter Plot of each Numeric Variable against Target variable')
-        #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-        #########   This is for bokeh server only ##############
-        #dmap = hv.DynamicMap(select_widget,  kdims=['Select_numeric_variable']).redim.values(Select_numeric_variable=nums).opts(framewise=True)
-        ###########  This is where you put the Panel Together ############
-        #hv_panel = pn.panel(dmap)
-        #widgets = hv_panel[0]
-        #hv_all = pn.Column(pn.Row(*widgets))
-
-        
-        ###########  E N D    O F     Y- A X I S    C O D E    ############
-    #     if verbose == 2:
-    #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-    #         image_count += 1
-    # ####### End of Scatter Plots ######
-    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-    #     #server = pn.serve(hv_all, start=True, show=True)
-    #     print('%s can be found in URL below:' %plot_name)
-    #     hv_all.show()
     if chart_format == 'html':
         save_html_data(hv_all, chart_format, plot_name, mk_dir)
     else:
@@ -547,24 +366,7 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
     #     sizing_mode='stretch_both'  # Make the entire layout responsive
         )
         hv_panel=layout
-        ########################   This is the old way of drawing scatter  ################################
-        #colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-        #def load_symbol(symbol, variable, **kwargs):
-        #    color = next(colors)
-        #    return hv.Scatter((dft[symbol].values,dft[variable].values)).opts(framewise=True).opts(size=5,
-        #            color=color, alpha=alpha, height=height_size, width=width_size).opts(
-        #            xlabel='%s' %symbol).opts(ylabel='%s' %variable).opts(
-        #           title='Scatter Plot of %s against %s variable' %(symbol,variable))
-        ### This is where you create the dynamic map and pass it the variable to load the chart!
-        #dmap = hv.DynamicMap(load_symbol, kdims=['Select_X','Select_Y']).redim.values(Select_X=nums, Select_Y=nums).opts(framewise=True)
-        ###########  This is where you put the Panel Together ############
-        #hv_panel = pn.panel(dmap)
-        #widgets = hv_panel[0]
-        #hv_panel = pn.Column(pn.Row(*widgets))
-        ########################   End of the old way of drawing scatter  ################################
-        # if verbose == 2:
-        #     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-        #     image_count += 1
+        
     else:
         ########## This is for Classification problems ##########
         #########  This is the new way to plot a pair-wise scatter plot ####
@@ -608,402 +410,15 @@ def draw_pair_scatters_hv(dfin,nums,problem_type,chart_format, dep=None,
         )
 
         hv_panel=layout
-        #########  This is an old way to plot a pair-wise scatter plot ####
-        #target_vars = dft[dep].unique()
-        #x = pn.widgets.Select(name='x', options=nums)
-        #y = pn.widgets.Select(name='y', options=nums)
-        #kind = pn.widgets.Select(name='kind', value='scatter', options=['bivariate', 'scatter'])
-
-        #plot = dft.hvplot(x=x, y=y, kind=kind, by=dep, height=height_size, alpha=0.5,
-        #                title='Pair-wise Scatter Plot of two Independent Numeric variables')
-        #hv_panel = pn.Row(pn.WidgetBox(x, y, kind), plot)
-    #     if verbose == 2:
-    #         imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-    #         image_count += 1
-    # ####### End of Pair Scatter Plots ######
-    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-    #     #server = pn.serve(hv_panel, start=True, show=True)
-    #     print('%s can be found in URL below:' %plot_name)
-    #     hv_panel.show()
+       
     if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
         display(hv_panel)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()   
     
     return hv_panel
-##################################################################################
-##### Draw the Distribution of each variable using Distplot
-##### Must do this only for Continuous Variables
-# def draw_distplot_hv(dft, cats, conti, chart_format,problem_type,dep=None, 
-#                     classes=None, mk_dir='AutoViz_Plots', verbose=0):
-#     dft = copy.deepcopy(dft)
-#     image_count = 0
-#     imgdata_list = list()
-#     #### Since we are making changes to dft and classes, we will be making copies of it here
-#     conti = list(set(conti))
-#     nums = copy.deepcopy(conti)
-#     classes = copy.deepcopy(classes)
-#     colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#     imgdata_list = list()
-#     width_size = 600  #### this is to control the width of chart as well as number of categories to display
-#     height_size = 400
-#     gap = 0.4 #### This controls the space between rows  ######
-#     plot_name = 'distplots'
-#     # hv_all = None
-#     ###################################################################################
-#     if dep==None or dep=='' or problem_type == 'Regression':
-#         ######### This is for Regression problems only ########
-#         transparent = 0.7
-#         binsize = 30
-#         ### Be very careful with the next 2 lines: we want to fill NA with 0 in numeric vars
-#         for each_conti,k in zip(conti,range(len(conti))):
-#             if dft[each_conti].isnull().sum() > 0:
-#                 ### Remember that fillna only works at dataframe level! ###
-#                 dft[[each_conti]] = dft[[each_conti]].fillna(0)
-#         ## In this case, we perform this only if we have Cat variables
-#         if not isinstance(dep, list):
-#             ### it means dep is a string ###
-#             if dep == '':
-#                 pass
-#             elif len(cats) > 0:
-#                 colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#                 def select_widget(each_cat):
-#                     """
-#                     This program must take in a variable passed from the widget and turn it into a chart.
-#                     The input is known as each_cat and it is the variable you must use to get the data and build a chart.
-#                     The output must return a HoloViews Chart.
-#                     """
-#                     width_size=15
-#                     #######  This is where you plot the histogram of categorical variable input as each_cat ####
-#                     conti_df = dft[[dep,each_cat]].groupby(each_cat).mean().reset_index()
-#                     row_ticks = dft[dep].unique().tolist()
-#                     color_list = next(colors)
-#                     pivotdf = pd.DataFrame(conti_df.to_records()).set_index(each_cat)
-#                     plot = pivotdf.hvplot(kind='bar',stacked=False,use_index=False, color=color_list,
-#                                           title='Mean Target = %s by each Categorical Variable' %dep ,responsive=True).opts(xrotation=70)
-#                     return plot
-#                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-#                 dmap = hv.DynamicMap(select_widget,  kdims=['Select_Cat_Variable']).redim.values(Select_Cat_Variable=cats)
-#                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-#                 ###########  This is where you put the Panel Together ############
-#                 hv_panel = pn.panel(dmap, widget_location='top')
-#                 widgets = hv_panel[1]
-#                 hv_all = pn.Column(pn.Row(*widgets))
-#                 if verbose == 2:
-#                     imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-#                     image_count += 1
-#                 if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#                     #server = pn.serve(hv_all, start=True, show=True)
-#                     print('%s can be found in URL below:' %plot_name)
-#                     hv_all.show()
-#                 elif chart_format == 'html':
-#                     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_cats")
-#                 else:
-#                     display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-#                     #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-#         if len(conti) > 0:
-#             try:
-#                 ######   This is a Very Complex Way to build an ND Overlay Chart with One Variable as a Select Variable #######
-#                 jitter = 0.5
-#                 colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#                 transparent = 0.5
-#                 # def select_variable_to_plot(num_var):
-#                 #     """
-#                 #     This program must take in a variable passed from the widget and turn it into a chart.
-#                 #     The input is known as num_var and it is the variable you must use to get the data and build a chart.
-#                 #     The output must return a HoloViews Chart.
-#                 #     """
-#                 #     color = next(colors)
-#                 #     xlimi = (dft[num_var].min(), dft[num_var].max())
-#                 #     hv_look = hv.Distribution(np.histogram(dft[num_var]), num_var).opts(color=color,
-#                 #                         height=height_size, width=width_size, alpha=transparent,
-#                 #                     title='KDE (Distribution) Plot of Numeric Variables').redim.range(num_var=xlimi)
-#                 #     return hv_look
-#                 def select_variable_to_plot(num_var):
-#                     """
-#                     This program must take in a variable passed from the widget and turn it into a chart.
-#                     The input is known as num_var and it is the variable you must use to get the data and build a chart.
-#                     The output must return a HoloViews Chart.
-#                     """
-#                     color = next(colors)
-#                     xlimi = (dft[num_var].min(), dft[num_var].max())
-#                     hv_look = hv.Distribution(np.histogram(dft[num_var]), num_var).opts(color=color,
-#                                        alpha=transparent,
-#                                     title='KDE (Distribution) Plot of Numeric Variables',responsive=True).redim.range(num_var=xlimi)
-#                     return hv_look
-                
-#                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-#                 dmap = hv.DynamicMap(select_variable_to_plot,  kdims=['Select_Variable']).redim.values(Select_Variable=nums)
-#                 dmap.opts(framewise=True,axiswise=True) ## both must be True for your charts to have dynamically varying axes!
-#                 ###########  This is where you put the Panel Together ############
-#                 hv_panel = pn.panel(dmap, widget_location='top')
-                
-#                 widgets = hv_panel[1]
-#                 hv_all = pn.Column(pn.Row(*widgets))
-#                 if verbose == 2:
-#                     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#                     image_count += 1
-#                 if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#                     #server = pn.serve(hv_all, start=True, show=True)
-#                     print('%s can be found in URL below:' %plot_name)
-#                     hv_all.show()
-#                 elif chart_format == 'html':
-#                     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-#                 else:
-#                     display(hv_all)                 
-#             except:
-#                 print('Error in Distribution Plot1')
-#                 hv_all = []
-#         # if verbose == 2:
-#         #     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#         #     image_count += 1
-#         # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#         #     #server = pn.serve(hv_all, start=True, show=True)
-#         #     print('%s can be found in URL below:' %plot_name)
-#         #     hv_all.show()
-#         # elif chart_format == 'html':
-#         #     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-#         # else:
-#         #     display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-#         #     #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-#     else:
-#         ######### This is for Classification problems only ########
-#         transparent = 0.7
-#         binsize = 30
-#         alpha = 0.5
-#         height_size = 400
-#         width_size = 600
-#         ### Be very careful with the next 2 lines: we want to fill NA with 0 in numeric vars
-#         target_vars = dft[dep].unique().tolist()
-#         if type(classes[0])==int:
-#             classes = [str(x) for x in classes]
-#         for each_conti,k in zip(conti,range(len(conti))):
-#             if dft[each_conti].isnull().sum() > 0:
-#                 ## fillna only works on a dataframe level - it also doesnt do inplace! ###
-#                 dft[[each_conti]] = dft[[each_conti]].fillna(0)
-#         if len(cats) > 0:
-#             def select_widget(Select_categorical_var):
-#                 """
-#                 This program must take in a variable passed from the widget and turn it into a chart.
-#                 The input is known as num_var and it is the variable you must use to get the data and build a chart.
-#                 The output must return a HoloViews Chart.
-#                 """
-#                 colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#                 #######  This is where you plot the histogram of categorical variable input as each_cat ####
-#                 conti_df = dft[[dep,Select_categorical_var]].groupby([dep,Select_categorical_var]).size().nlargest(
-#                                     width_size).reset_index(name='Values')
-#                 pivot_df = conti_df.pivot(index=Select_categorical_var, columns=dep, values='Values').fillna(0)
-#                 row_ticks = dft[dep].unique().tolist()
-#                 color_list = []
-#                 for i in range(len(row_ticks)):
-#                     color_list.append(next(colors))
-#                 pivotdf = pd.DataFrame(pivot_df.to_records()).set_index(Select_categorical_var)
-#                 plot = pivotdf.hvplot(kind='bar',stacked=True,use_index=True,
-#                             title='Target = %s Histogram by each Categorical Variable' %dep,responsive=True).opts(
-#                                  xrotation=70)
-#                 return plot
-#             #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-#             dmap = hv.DynamicMap(select_widget,  kdims=['Select_categorical_var']).redim.values(
-#                                                 Select_categorical_var=cats)
-#             ###########  This is where you put the Panel Together ############
-#             hv_panel = pn.panel(dmap, widget_location='top')
-#             widgets = hv_panel[1]
-#             hv_all = pn.Column(pn.Row(*widgets))
-#             if verbose == 2:
-#                 imgdata_list = append_panels(hv_panel, imgdata_list, chart_format)
-#                 image_count += 1
-#             if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#                 #server = pn.serve(hv_all, start=True, show=True)
-#                 print('%s can be found in URL below:' %plot_name)
-#                 hv_all.show()
-#             elif chart_format == 'html':
-#                 save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_cats")
-#             else:
-#                 display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-#                 #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-#         if len(conti) > 0:
-#             try:
-#                 ######   This is a Very Complex Way to build an ND Overlay Chart with One Variable as a Select Variable #######
-#                 colortext = 'brycgkbyrcmgkbyrcmgkbyrcmgkbyr'
-#                 target_vars = dft[dep].unique().tolist()
-#                 color_list = list(colortext[:len(target_vars)])
-#                 jitter = 0.5
-#                 colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#                 transparent = 0.5
-#                 def select_widget(Select_numeric_variable):
-#                     """
-#                     This program must take in a variable passed from the widget and turn it into a chart.
-#                     The input is known as num_var and it is the variable you must use to get the data and build a chart.
-#                     The output must return a HoloViews Chart.
-#                     """
-#                     color = next(colors)
-#                     overlay = hv.NdOverlay({group: hv.Distribution(np.histogram(dft[dft[dep]==group][Select_numeric_variable].values)) for i,group in enumerate(target_vars)})
-#                     hv_look = overlay.opts(opts.Distribution(alpha=0.5)).opts(
-#                         title='KDE (Distribution) Plots of all Numeric Variables by Classes',responsive=True).opts(
-#                         xlabel='%s' %dep).opts(ylabel='%s' %Select_numeric_variable)
-#                     return hv_look
-#                 #######  This is where you call the widget and pass it the select_variable to draw a Chart #######
-#                 dmap = hv.DynamicMap(select_widget,  kdims=['Select_numeric_variable']).redim.values(Select_numeric_variable=nums)
-#                 ###########  This is where you put the Panel Together ############
-#                 hv_panel = pn.panel(dmap,widget_location='top')
-#                 widgets = hv_panel[1]
-#                 hv_all = pn.Column(pn.Row(*widgets))
-#                 if verbose == 2:
-#                     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#                     image_count += 1
-#                 if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#                     #server = pn.serve(hv_all, start=True, show=True)
-#                     print('%s can be found in URL below:' %plot_name)
-#                     hv_all.show()
-#                 elif chart_format == 'html':
-#                     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-#                 else:
-#                     display(hv_all) 
-#             except:
-#                 print('Error in Distribution Plot2')
-#                 hv_all = []
-#             # if verbose == 2:
-#             #     imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#             #     image_count += 1
-#             # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#             #     #server = pn.serve(hv_all, start=True, show=True)
-#             #     print('%s can be found in URL below:' %plot_name)
-#             #     hv_all.show()
-#             # elif chart_format == 'html':
-#             #     save_html_data(hv_all, chart_format, plot_name, mk_dir, additional="_nums")
-#             # else:
-#             #     display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-#                 #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-#     ####### End of Distplots ###########
-#     return hv_all
-##################################################################################
-# def draw_violinplot_hv(dft, dep, nums,chart_format, modeltype='Regression', 
-#                     mk_dir='AutoViz_Plots', verbose=0):
-#     dft = copy.deepcopy(dft)
-#     image_count = 0
-#     imgdata_list = list()
-#     width_size = 800
-#     height_size = 500
-#     if type(dep) == str:
-#         nums = [x for x in nums if x not in [dep]]
-#     else:
-#         nums = [x for x in nums if x not in dep]
-#     colors = cycle('brycgkbyrcmgkbyrcmgkbyrcmgkbyr')
-#     plot_name = 'violinplots'
-#     #############################################################################
-#     if modeltype in ['Regression', 'Clustering']:
-#         ### This is for Regression and None Dep variable problems only ##
-#         number_in_each_row = 30
-#         cmap_list = ["#75968f", "#a5bab7", "#c9d9d3", "#e2e2e2", "#dfccce", "#ddb7b1", "#cc7878", "#933b41", "#550b1d"]
-#         ###### This is for looping over variables 10 at a time only ##########################
-#         df_p = dft[nums]
-#         if df_p.shape[1] < number_in_each_row:
-#             iter_limit = number_in_each_row
-#         else:
-#             iter_limit = max(number_in_each_row, int(df_p.shape[1]/5+0.5))
-#         #print('Current number of Numeric Variables = %d ' %(df_p.shape[1],))
-#         ###### This is for looping over variables 10 at a time only ##########################
-#         drawobjv_list = [] ## this keeps track of the actual values
-#         drawobj_list = [] ## this keeps track of the names
-#         counter = 0
-#         for i in range(0,df_p.shape[1],iter_limit):
-#             new_end = i+iter_limit
-#             #print('i = ',i,"new end = ", new_end)
-#             if i == 0:
-#                 title_string = 'using first %d variables...' %(iter_limit)
-#                 #print(title_string )
-#             else:
-#                 title_string = 'using next %d variables...' %(iter_limit)
-#                 #print(title_string )
-#             conti = nums[i:new_end]
-#             ######################### Add Standard Scaling here ##################################
-#             from sklearn.preprocessing import StandardScaler
-#             SS = StandardScaler()
-#             data = pd.DataFrame(SS.fit_transform(dft[conti]),columns=conti)
-#             var_name = 'drawobjv_list['+str(counter)+']'
-#             drawobj_list.append(var_name)
-#             drawobjv_list.append(var_name)
-#             drawobj = data.hvplot(kind='violin', label='Violin Plot %s (Standard Scaled)' %title_string,
-#                                    rot=70 ,responsive=True #height=height_size,width=width_size
-#                                  )
-#             drawobjv_list[counter] = drawobj
-#             counter += 1
-#         ######### After collecting all the drawobjv's put them in a dynamic map and display them ###
-#         combined_charts = "("+"".join([x+'+' for x in drawobj_list])[:-1]+")"
-#         hv_all = pn.panel(eval(combined_charts))        #### This is where we add them to the list ######        
-#         if verbose == 2:
-#             imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#             image_count += 1
-#         #### In the case of violin plots, you have to create multiple tabs or plots ###
-#         if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-#             print('%s can be found in URL below:' %plot_name)
-#             server = pn.serve(hv_all, start=True, show=True)
-#             #hv_all.show()  ### for some reason .show errors in violin plots
-#         elif chart_format == 'html':
-#             save_html_data(hv_all, chart_format, plot_name, mk_dir)
-#         else:
-#             display(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()        
-#             #display_obj(hv_all)  ### This will display it in a Jupyter Notebook. If you want it on a server, you use drawobj.show()
-#     else:
-#         #### This is for Classification problems ###################
-#         number_in_each_row = 30
-#         df_p = dft[nums]
-#         if df_p.shape[1] < number_in_each_row:
-#             iter_limit = number_in_each_row
-#         else:
-#             iter_limit = max(number_in_each_row, int(df_p.shape[1]/5+0.5))
-#         ###### This is for looping over variables 10 at a time only ##########################
-#         target_vars = np.unique(dft[dep])
-#         dmaps = []
-#         combined_charts = ''
-#         counter = 0
-#         drawobjv_list = [] ## this keeps track of the actual values
-#         drawobj_list = [] ## this keeps track of the names
-#         for symbol in target_vars:
-#             color = next(colors)
-#             sup_title = 'Violin Plot for %s = %s' %(dep,symbol)
-#             for i in range(0,df_p.shape[1],iter_limit):
-#                 new_end = i+iter_limit
-#                 if i == 0:
-#                     title_string = 'first %d variables' %(df_p.shape[1])
-#                 else:
-#                     title_string = 'next %d variables' %(df_p.shape[1])
-#                 conti = nums[i:new_end]
-#                 ######################### Add Standard Scaling here ##################################
-#                 from sklearn.preprocessing import StandardScaler
-#                 SS = StandardScaler()
-#                 data = pd.DataFrame(SS.fit_transform(dft[conti]),columns=conti)
-#                 data[dep] = dft[dep].values
-#                 dft_sym = data[data[dep] == symbol][conti]
-#                 var_name = 'drawobjv_list['+str(counter)+']'
-#                 drawobj_list.append(var_name)
-#                 drawobjv_list.append(var_name)
-#                 drawobj =  dft_sym.hvplot(kind='violin',title='%s: %s' %(sup_title, title_string)).opts(framewise=True).opts(
-#                         box_color=color,responsive=True)
-#                 drawobjv_list[counter] = drawobj
-#                 counter += 1
-#         ######### After collecting all the drawobjv's put them in a panel and display them ###
-#         combined_charts = "".join([x+'+' for x in drawobj_list])[:-1]
-#         ###########  This is where you put the Panel Together ############
-#         hv_all = pn.panel(eval(combined_charts))
-#         if chart_format.lower() in ['server', 'bokeh_server', 'bokeh-server']:
-#             ### If you want it on a server, you use drawobj.show()
-#             print('%s can be found in URL below:' %plot_name)
-#             server = pn.serve(hv_all, start=True, show=True)
-#         elif chart_format == 'html':
-#             save_html_data(hv_all, chart_format, plot_name, mk_dir)
-#         else:
-#             ### This will display it in a Jupyter Notebook.
-#             display(hv_all)
-#         #### This is where we add them to the list ######        
-#         if verbose == 2:
-#             imgdata_list = append_panels(hv_all, imgdata_list, chart_format)
-#             image_count += 1
-#     ########## End of Violin Plots #########
-#     return hv_all
-###########################################################################################
-##########     Draw date time series variables                    #########################
-###########################################################################################
+
+###########################################################################
 def draw_date_vars_hv(df,dep,datevars, nums, chart_format, modeltype='Regression',
                         mk_dir='AutoViz_Plots', verbose=0):
     #### Now you want to display 2 variables at a time to see how they change over time
@@ -1072,11 +487,7 @@ def draw_date_vars_hv(df,dep,datevars, nums, chart_format, modeltype='Regression
     )
     hv_panel=layout
                             
-    # ##### Save all the chart objects here ##############
-    # if chart_format in ['server', 'bokeh_server', 'bokeh-server']:
-    #     #server = pn.serve(hv_panel, start=True, show=True)
-    #     print('%s can be found in URL below:' %plot_name)
-    #     hv_panel.show()
+
     if chart_format == 'html':
         save_html_data(layout, chart_format, plot_name, mk_dir)
     else:
