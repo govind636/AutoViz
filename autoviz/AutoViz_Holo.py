@@ -272,8 +272,8 @@ def draw_cat_vars_hv(dfin, dep, nums, cats, chart_format, problem_type, mk_dir, 
     widgets = pn.WidgetBox(x1, y1, css_classes=['custom-panel-css'])
     
     layout = pn.Column(
-        # widgets,
-        pn.Row(pn.Spacer(), widgets),
+        widgets,
+        # pn.Row(pn.Spacer(), widgets),
         pn.pane.HoloViews(create_figure, sizing_mode='stretch_both'),  # Wrap the graph in a responsive pane
     #     sizing_mode='stretch_both'  # Make the entire layout responsive
     )
